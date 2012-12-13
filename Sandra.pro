@@ -6,7 +6,7 @@ SOURCES += main.cpp \
     system.cpp \
     key.cpp \
     argument.cpp \
-    video.cpp
+    video.cpp \
 
 CONFIG += link_pkgconfig
 PKGCONFIG += opencv
@@ -15,4 +15,5 @@ HEADERS += \
     system.h \
     key.h \
     argument.h \
+    video.h \
     video.h

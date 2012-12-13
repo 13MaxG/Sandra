@@ -1,28 +1,28 @@
 #include <iostream>
 
-#include "video.h"
-#include "argument.h"
+#include "system.h"
+
 
 using namespace std;
 
 int main()
 {
-    Video video;
-    video.Prepare();
+    System system;
+    system.Render();
 
-    int x = 0;
-        while( true) //Show the image captured in the window and repeat
-        {
-            x ++;
-            if(x>120) break;
+    Argument<int> pass;
+    pass.Set(Key<int>(5, 0.0));
+    pass.Set(Key<int>(10, 1.0));
+    pass.Prepare();
 
-            cv::circle(video.Frame, cv::Point(300,300), x,  cv::Scalar(255, 255, 255), 1, CV_AA);
+    int x =0;
+    while(pass.Get() != 10)
+    {
+        x++;
+        cout<<x<<": "<<pass.Get()<<endl;
+        pass.Update(0.05);
 
-            cv::rectangle(video.Frame, cv::Point(288,105), cv::Point(288+2*x,105+3*x), cv::Scalar((x+50)%255,(x)%255, (x+100)%255),  2, CV_AA) ;
-
-            video.RenderFrame();
-        }
-
+    }
     return 0;
 }
 

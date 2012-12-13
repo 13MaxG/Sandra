@@ -1,6 +1,8 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
+#include "argument.h"
+#include "video.h"
 
 /**
  * @brief Główna klasa animacji.
@@ -10,14 +12,18 @@
  */
 class System
 {
+    Argument<double> x;
+    Argument<double> y;
+    Argument<double> r;
 
+    Video video;
 
 public:
     System();
 
-    void Load();
-    void Update();
-    void Render();
+     void Load();
+     void Update();
+     void Render();
 
 };
 
