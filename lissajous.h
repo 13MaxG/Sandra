@@ -19,6 +19,7 @@ class Lissajous : public System
     Argument<double> color_b;
 
     double delta;
+    bool spiral;
 
 public:
     Lissajous();

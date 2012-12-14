@@ -3,6 +3,7 @@
 Lissajous::Lissajous() : System()
 {
     delta = 0;
+    spiral = false;
 }
 
 void Lissajous::Load(char* fileName)
@@ -223,6 +224,17 @@ void Lissajous::Load(char* fileName)
             } else
                 std::cout<<"("<<i<<"): Błąd: niepoprawna ilość argumentów dla teo polecenia"<<std::endl;
 
+        }else
+        if(command.Name() == "set_spiral")
+        {
+            if(command.NumbersOfArgument() == 1)
+            {
+                 spiral = command[0] == "true";
+
+
+            } else
+                std::cout<<"("<<i<<"): Błąd: niepoprawna ilość argumentów dla teo polecenia"<<std::endl;
+
         }
 /////////
 // Brak
@@ -239,7 +251,6 @@ void Lissajous::Load(char* fileName)
 
 void Lissajous::Update()
 {
-    delta = 0.001;
     radius.Update(delta);
     scale_x.Update(delta);
     scale_y.Update(delta);
@@ -261,7 +272,9 @@ void Lissajous::Render()
         totalFrames = video.GetFPS() * totalTime;
 
     }
-    delta = 1 / totalFrames;
+    delta = 1.0 / totalFrames;
+
+
 
     // Przygotuj argumenty
     radius.Prepare();
@@ -279,12 +292,18 @@ void Lissajous::Render()
     // Przygotuj wideo
     video.Prepare();
 
-
-
-
     for(currentFrames = 0; currentFrames < totalFrames; currentFrames++)
     {
         Update();
+
+        Argument<double> color_r2 = color_r;
+        Argument<double> color_g2 = color_g;
+        Argument<double> color_b2 = color_b;
+
+        color_r2.Prepare();
+        color_g2.Prepare();
+        color_b2.Prepare();
+        double d2 = 1.0 / precision.Get();
 
         //
         double alpha = 0;
@@ -293,13 +312,26 @@ void Lissajous::Render()
         double x = 0, y = 0;
         double x0 = 0, y0 = 0;
 
-        float r = radius.Get();
 
+        double r;
+        double rr = radius.Get();
+
+        if(spiral) r = 0; else r = rr;
+
+
+
+        for(int j = 0; j < jumps.Get(); j++)
         for(int i = 0; i < precision.Get(); i++)
         {
             x0 = x;
             y0 = y;
             alpha += dAlpha;
+
+            color_r2.Update(d2);
+            color_g2.Update(d2);
+            color_b2.Update(d2);
+
+            if(spiral) r += jump.Get() / precision.Get() * rr;
 
             x = (video.GetResolutionWidth()/2)
                     + r * scale_x.Get() * cos(alpha * factor_x_cos.Get());
@@ -308,19 +340,21 @@ void Lissajous::Render()
             //cv::line(video.Frame, cv::Point(0, 0), cv::Point(100, 100), cv::Scalar(127, 0, 127), 1, CV_AA);
 
 
+
+            if(i>0 || j != 0 )
             cv::line(
                 video.Frame,
                 cv::Point(x0, y0),
                 cv::Point(x,y),
-                cv::Scalar(color_b.Get(), color_g.Get(), color_r.Get()),
+                cv::Scalar(color_b2.Get(), color_g2.Get(), color_r2.Get()),
                 1,
                 CV_AA);
 
 
         }
 
-
         video.RenderFrame();
     }
+
 
 }

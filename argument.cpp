@@ -15,6 +15,7 @@ Argument<T>::Argument()
 template<typename T>
 void Argument<T>::Prepare()
 {
+    current.Time = 0; // Dla bezpieczeństwa
     data.sort(); // Sortuj listę
     current = *data.begin(); // Aktualny element to pierwszy element
     next = data.begin(); next++; // Następny element to drugi element

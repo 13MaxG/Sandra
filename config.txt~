@@ -1,9 +1,11 @@
 #Lissajous
 #
+# Przykładowy plik konfiguracyjny
+#
 # Video
 video_file_name( super.avi);
-video_resolution_width(1920);
-video_resolution_height(1080);
+video_resolution_width(640);
+video_resolution_height(480);
 video_fps(60);
 #
 # Animation
