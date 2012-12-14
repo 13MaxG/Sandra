@@ -1,28 +1,40 @@
 #include <iostream>
+#include <fstream>
 
-#include "system.h"
+#include "lissajous.h"
 
 
 using namespace std;
 
 int main()
 {
-    System system;
-    system.Render();
+    System *system;
 
-    Argument<int> pass;
-    pass.Set(Key<int>(5, 0.0));
-    pass.Set(Key<int>(10, 1.0));
-    pass.Prepare();
+    char* config = "config.txt";
+    fstream file;
+    string name;
 
-    int x =0;
-    while(pass.Get() != 10)
+    file.open(config, ios::in);
+    file>>name;
+    file.close();
+
+    bool ok = true;
+
+    if(name == "#Lissajous")
     {
-        x++;
-        cout<<x<<": "<<pass.Get()<<endl;
-        pass.Update(0.05);
-
+        system = new Lissajous();
+    } else
+    {
+        ok  = false;
+        cout<<"Nieznana animacja"<<endl;
     }
+
+    if(ok)
+    {
+        system->Load(config);
+        system->Render();
+    }
+
     return 0;
 }
 

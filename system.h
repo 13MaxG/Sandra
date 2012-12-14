@@ -1,8 +1,15 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
+#include <string>
+#include <fstream>
+#include <iostream>
+#include <cmath>
+
+#include "command.h"
 #include "argument.h"
 #include "video.h"
+#include "convert.h"
 
 /**
  * @brief Główna klasa animacji.
@@ -12,18 +19,20 @@
  */
 class System
 {
-    Argument<double> x;
-    Argument<double> y;
-    Argument<double> r;
-
+protected:
     Video video;
+    std::fstream file;
 
+    unsigned long long currentFrames;
+    unsigned long long totalFrames;
+    unsigned long long totalTime;
 public:
     System();
+    virtual ~System();
 
-     void Load();
-     void Update();
-     void Render();
+    virtual void Load(char* fileName);
+    virtual void Update();
+    virtual void Render();
 
 };
 
