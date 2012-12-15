@@ -10,7 +10,8 @@ HEADERS += \
     video.h \
     command.h \
     lissajous.h \
-    convert.h
+    convert.h \
+    mandelbrot.h
 
 SOURCES += main.cpp \
     system.cpp \
@@ -18,7 +19,8 @@ SOURCES += main.cpp \
     argument.cpp \
     video.cpp \
     command.cpp \
-    lissajous.cpp
+    lissajous.cpp \
+    mandelbrot.cpp
 
 CONFIG += link_pkgconfig
 PKGCONFIG += opencv

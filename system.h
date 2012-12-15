@@ -42,6 +42,11 @@ protected:
      */
     unsigned long long totalTime;
 
+    /**
+     *@brief Po prostu delta
+     */
+    double delta;
+
 public:
     System();
     virtual ~System(); // ma być, bo inaczej nie działa
@@ -61,10 +66,33 @@ public:
      */
 
     virtual void Update(double d);
+
+    /**
+     * @bierf Stwórz pojedynczą klatkę
+     *
+     * Wylicza aktualną klatkę. Jest ona gotowa do wyrenderowania
+     */
+    virtual void CreateFrame();
+
+    /**
+     * @brief pezed renderowaniem
+     *
+     * Wpisać do niej rzec które powinny się oliczyć zamin zacznie się renderować.
+     * (pętla z tworzeniem klatek)
+     */
+    virtual void BeforeRedner();
+
     /**
      * @brief Renderuj do pliku
+     *
+     * Renderuj do  pliku. Na początku przygotowuje parametry oraz wideo.
+     * Potem wykonuje metodę BeforeRender(), którą można wirtualizować.
+     * Następnie w pętli tworzy wszytskie klatki jakie mają być zamierzone.
+     * Klatki tworzy metodą CreateFrame. Po stworzeniu każdej klatki jest ona zapisywana do pliku.
+     *
+     * Kiedyś można było stworzyć pochodną tej funkcji, ale uznałem że tak będzie mniej kopiowania.
      */
-    virtual void Render();
+    void Render(double info);
 
 };
 

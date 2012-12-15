@@ -2,15 +2,26 @@
 #include <fstream>
 
 #include "lissajous.h"
-
+#include "mandelbrot.h"
 
 using namespace std;
 
-int main()
+int main( int argc, char* argv[] )
 {
+    cout<<"## SANDRA 1.0 ##"<<endl;
+    cout<<"# Andrzej (Wem) Golonka, 2012"<<endl;
+    cout<<"# http://WiecznyWem.tk"<<endl;
+
     System *system;
 
+
     char* config = "config.txt";
+    double info = 0.05;
+
+    if(argc >=2) config = argv[1];
+    if(argc >=3) info = fromString<double>(argv[2]) / 100.0;
+
+    cout<<"Plik konfiguracyjny: "<<config<<endl;
     fstream file;
     string name;
 
@@ -24,6 +35,10 @@ int main()
     {
         system = new Lissajous();
     } else
+    if(name == "#Mandelbrot")
+    {
+        system = new Mandelbrot();
+    } else
     {
         ok  = false;
         cout<<"Nieznana animacja"<<endl;
@@ -31,8 +46,9 @@ int main()
 
     if(ok)
     {
+        cout<<"Animacja: "<<name<<endl;
         system->Load(config);
-        system->Render();
+        system->Render(info);
     }
 
     return 0;

@@ -20,8 +20,12 @@ void Video::Restart()
 void Video::Prepare()
 {
     _lock = true;
-
-    _writer.open(GetFileName() , CV_FOURCC('D', 'I', 'V', 'X'), GetFPS(), cv::Size(GetResolutionWidth(), GetResolutionHeight()), true);//open(GetFileName(), CV_FOURCC( GetCodec()[0], GetCodec()[1], GetCodec()[2], GetCodec()[3]), GetFPS(), cv::Size(GetResolutionWidth(), GetResolutionWidth()), true );
+        //CV_FOURCC('D', 'I', 'V', 'X')
+       // CV_FOURCC('D', 'I', 'B', ' ')
+    //CV_FOURCC('i','Y', 'U', 'V')
+    //CV_FOURCC('I','Y', 'U', 'V')
+    //I420  CV_FOURCC('I','4', '2', '0')
+    _writer.open(GetFileName() , CV_FOURCC('I','4', '2', '0') , GetFPS(), cv::Size(GetResolutionWidth(), GetResolutionHeight()), true);//open(GetFileName(), CV_FOURCC( GetCodec()[0], GetCodec()[1], GetCodec()[2], GetCodec()[3]), GetFPS(), cv::Size(GetResolutionWidth(), GetResolutionWidth()), true );
     Frame = cv::Mat(cv::Size(GetResolutionWidth(), GetResolutionHeight()),CV_8UC3) ;
 
 }

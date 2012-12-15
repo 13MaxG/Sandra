@@ -76,15 +76,22 @@ public:
      * @brief Przygotuj zmienne
      */
     void Prepare();
+
+    /**
+     * @bierf Renderuj pojedynczą klatkę
+     */
+    void CreateFrame();
+    /**
+     * @brief pezed renderowaniem
+     */
+    void BeforeRedner();
+
     /**
      * @brief Auaktualnij zmienne
      * @param d przyrost procenu animacji(1 - 100%)
      */
     void Update(double d);
-    /**
-     * @brief Renderuj do pliku
-     */
-    void Render();
+
 };
 
 #endif // LISSAJOUS_H
