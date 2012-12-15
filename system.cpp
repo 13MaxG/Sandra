@@ -18,7 +18,12 @@ void System::Load(char *fileName)
     currentFrames = 0;
 }
 
-void System::Update()
+void System::Prepare()
+{
+
+}
+
+void System::Update(double d)
 {
 
 }

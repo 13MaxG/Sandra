@@ -20,18 +20,50 @@
 class System
 {
 protected:
+    /**
+     * @brief Operator na pliku wideo
+     */
     Video video;
+    /**
+     * @brief Plik z konfiuracją
+     */
     std::fstream file;
 
+    /**
+     * @brief Aktualna klatka
+     */
     unsigned long long currentFrames;
+    /**
+     * @brief Całkowita ilość klatek
+     */
     unsigned long long totalFrames;
+    /**
+     * @brief Czas trwania animacji
+     */
     unsigned long long totalTime;
+
 public:
     System();
-    virtual ~System();
+    virtual ~System(); // ma być, bo inaczej nie działa
 
+    /**
+     * @brief Wczytaj konfiguracje
+     */
     virtual void Load(char* fileName);
-    virtual void Update();
+
+    /**
+     * @brief Przygotuj zmienne
+     */
+
+    virtual void Prepare();
+    /**
+     * @brief Aktualizuj zmienne
+     */
+
+    virtual void Update(double d);
+    /**
+     * @brief Renderuj do pliku
+     */
     virtual void Render();
 
 };
