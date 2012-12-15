@@ -60,7 +60,7 @@ void Command::Analize(std::string command, unsigned int line = 0)
     size_t e = command.find(");"); // Znajdź koniec
 
     // jeżeli odległość robi znaczenie, to coś tam musi być!
-    if(e - x > 1) _number_of_argument = 1;
+    if(e - x > 0) _number_of_argument = 1;
 
     size_t p = command.find(",", x); // Zmienna pomocnicza, OD
     std::queue<size_t> data; // Lista w której trzymane są pozycje przecinków
