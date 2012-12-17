@@ -10,6 +10,7 @@ void Video::Restart()
 {
     _lock = false;
     SetFileName("video.avi");
+    SetCodec("DIVX");
     SetResolutionWidth(1280);
     SetResolutionHeight(720);
     SetFPS(30);
@@ -25,7 +26,7 @@ void Video::Prepare()
     //CV_FOURCC('i','Y', 'U', 'V')
     //CV_FOURCC('I','Y', 'U', 'V')
     //I420  CV_FOURCC('I','4', '2', '0')
-    _writer.open(GetFileName() , CV_FOURCC('I','4', '2', '0') , GetFPS(), cv::Size(GetResolutionWidth(), GetResolutionHeight()), true);//open(GetFileName(), CV_FOURCC( GetCodec()[0], GetCodec()[1], GetCodec()[2], GetCodec()[3]), GetFPS(), cv::Size(GetResolutionWidth(), GetResolutionWidth()), true );
+    _writer.open(GetFileName() , CV_FOURCC(GetCodec()[0], GetCodec()[1], GetCodec()[2], GetCodec()[3]) , GetFPS(), cv::Size(GetResolutionWidth(), GetResolutionHeight()), true);//open(GetFileName(), CV_FOURCC( GetCodec()[0], GetCodec()[1], GetCodec()[2], GetCodec()[3]), GetFPS(), cv::Size(GetResolutionWidth(), GetResolutionWidth()), true );
     Frame = cv::Mat(cv::Size(GetResolutionWidth(), GetResolutionHeight()),CV_8UC3) ;
 
 }
@@ -91,3 +92,14 @@ unsigned int Video::GetFPS()
 {
     return _fps;
 }
+
+void Video::SetCodec(std::string codec)
+{
+   _codec = codec;
+}
+
+std::string Video::GetCodec()
+{
+    return _codec;
+}
+

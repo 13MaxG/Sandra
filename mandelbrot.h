@@ -6,6 +6,7 @@
 class Mandelbrot : public System
 {
 private:
+    Argument<unsigned  int> iterations;
 
 public:
     Mandelbrot();
@@ -21,19 +22,15 @@ public:
     void Prepare();
 
     /**
-     * @bierf Renderuj pojedynczą klatkę
-     */
-    void CreateFrame();
-    /**
-     * @brief pezed renderowaniem
-     */
-    void BeforeRedner();
-
-    /**
      * @brief Auaktualnij zmienne
      * @param d przyrost procenu animacji(1 - 100%)
      */
     void Update(double d);
+
+    /**
+     * @brief Rendeuje animacje
+     */
+    void Render(double info);
 };
 
 #endif // MANDELBROT_H

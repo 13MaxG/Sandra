@@ -28,25 +28,14 @@ void System::Update(double d)
 
 }
 
-void System::CreateFrame()
-{
-
-}
 
 void System::BeforeRedner()
 {
-
-}
-
-void System::Render(double info = 0.05)
-{
     std::cout<<"Plik wyjściowy: "<<video.GetFileName()<<std::endl;
+    std::cout<<"Kodek: "<<video.GetCodec()<<std::endl;
     std::cout<<"[pozostało w %] <=> [pozostało]  <><> [Ilość wyrenderowanych] / [Ilość wszytskich klatek] : "<<std::endl;
 
-    // Do wyświetlania procesu
-    double up = info;
-    double tmp = 0;
-    double total = 0;
+
 
     // Policz ostatnie rzeczy
     if(totalTime != 0) // jeżeli podano czas trwania animacji
@@ -63,9 +52,16 @@ void System::Render(double info = 0.05)
 
     // Przygotuj wideo
     video.Prepare();
+}
+
+void System::Render(double info = 0.05)
+{
+    // Do wyświetlania procesu
+    double up = info;
+    double tmp = 0;
+    double total = 0;
 
     BeforeRedner();
-
 
     std::cout.precision(2);
 
@@ -83,9 +79,11 @@ void System::Render(double info = 0.05)
         }
 
 
+        // OpiS SCENY
 
-        CreateFrame();
-        // renderuj!
+
+
+        // wyrenderuj!
         video.RenderFrame();
 
         tmp += delta;

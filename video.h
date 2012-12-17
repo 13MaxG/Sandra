@@ -124,7 +124,15 @@ public:
     * @return wysokość klatek
     */
     unsigned int GetResolutionHeight();
-
+    /**
+    * @brief Ustawia używany kodek
+    */
+    void SetCodec(std::string codec);
+    /**
+    * @brief Zwraca kodek
+    * @return kodek
+    */
+    std::string GetCodec();
 
     /**
     * @brief Ustawia ilość klatek na sekundę

@@ -71,6 +71,17 @@ void Lissajous::Load(char* fileName)
             } else
                 std::cout<<"("<<i<<"): Błąd: niepoprawna ilość argumentów dla teo polecenia"<<std::endl;
 
+        }  else
+//KODEK
+        if(command.Name() == "video_codec")
+        {
+            if(command.NumbersOfArgument() == 1)
+            {
+
+                video.SetCodec(command[0]);
+            } else
+                std::cout<<"("<<i<<"): Błąd: niepoprawna ilość argumentów dla teo polecenia"<<std::endl;
+
         } else
 // Czas trwania
         if(command.Name() == "duration_time")
@@ -293,113 +304,116 @@ void Lissajous::Update(double d)
     color_b.Update(d);
 }
 
-void Lissajous::BeforeRedner()
+
+
+void Lissajous::Render(double info = 0.05)
 {
+    // Do wyświetlania procesu
+    double up = info;
+    double tmp = 0;
+    double total = 0;
 
-}
+    BeforeRedner();
 
-void Lissajous::CreateFrame()
-{
-    Update(delta); // aktualizuj parametry
+    std::cout.precision(2);
 
-    // Incepcja! Chcę aby krzywa była pokolorowana wegług podanej plaety
-    Argument<double> color_r2 = color_r;
-    Argument<double> color_g2 = color_g;
-    Argument<double> color_b2 = color_b;
-
-    // Muszę przygotować
-    color_r2.Prepare();
-    color_g2.Prepare();
-    color_b2.Prepare();
-
-
-    // delta dla kolorów w incepcji
-    double d2 = (1.0 / precision.Get());
-    if(spiral) d2 /= jumps.Get(); // troszkę inaczej to wygląda dla spirali
-    //
-    double alpha = 0; // aktualny kąt kreślenia okręgu
-    double dAlpha = 2.0 * M_PI / precision.Get(); // delta kąta
-
-    // Pozycje punktów
-    double x = 0, y = 0;
-    double x0 = 0, y0 = 0;
-
-    // Promień
-    double r;
-    double rr = radius.Get(); // taka tak kopia
-    // W przypadku spirali promień się będzie zmieniać
-    if(spiral) r = 0; else r = rr;
-
-    double jj; // Iloć skoków pętli dużej
-    if(spiral) jj = jumps.Get(); else jj = 1;
-
-    for(int j = 0; j < jj; j++) // pętla duża, do spirali
-    for(int i = 0; i < precision.Get(); i++) // pętla mała, dokładność
-    {
-
-
-        // kąt
-        alpha += dAlpha;
-
-        // kolor
-        color_r2.Update(d2);
-        color_g2.Update(d2);
-        color_b2.Update(d2);
-
-        // promień
-        if(spiral) r += jump.Get() / precision.Get() * rr;
-
-        // punkty
-        x0 = x;
-        y0 = y;
-
-        x = (video.GetResolutionWidth()/2)
-                + r * scale_x.Get() * cos(alpha * factor_x_cos.Get());
-        y = (video.GetResolutionHeight()/2)
-                + r * scale_y.Get() * sin(alpha * factor_y_sin.Get());
-
-        // jeżeli trzeba rysować to rysuj
-        if(i>0 || j != 0 )
-        cv::line(
-            video.Frame, // na klatce widea
-            cv::Point(x0, y0), // od
-            cv::Point(x,y), // do
-            cv::Scalar(color_b2.Get(), color_g2.Get(), color_r2.Get()), // kolorem
-            1, // o grubości 1
-            CV_AA); // z aintialastiniem
-
-
-    }
-}
-
-/*
-void Lissajous::Render()
-{
-    // Policz ostatnie rzeczy
-    if(totalTime != 0) // jeżeli podano czas trwania animacji
-    {
-        // to oblicz ilość klatek
-        totalFrames = video.GetFPS() * totalTime;
-
-    }
-    // delta do aktualizowania paremetrów
-    double delta = 1.0 / totalFrames;
-
-    // Przygotuj argumenty
-    Prepare();
-
-    // Przygotuj wideo
-    video.Prepare();
+    std::cout<<(total)*100<<"% <=> "<<totalFrames <<" <><> "<<0<<" / "<<totalFrames<<std::endl;
 
     // Pętla przez wszytskie klatki
     for(currentFrames = 0; currentFrames < totalFrames; currentFrames++)
     {
+        // Wyświetlanie procesu
 
-        // renderuj!
+        if(tmp >= up)
+        {
+            tmp = 0;
+            std::cout<<std::fixed<<(total)*100<<"% <=> "<<totalFrames - currentFrames<<" <><> "<<currentFrames<<" / "<<totalFrames<<std::endl;
+        }
+
+
+        // OpiS SCENY
+
+        Update(delta); // aktualizuj parametry
+
+        // Incepcja! Chcę aby krzywa była pokolorowana wegług podanej plaety
+        Argument<double> color_r2 = color_r;
+        Argument<double> color_g2 = color_g;
+        Argument<double> color_b2 = color_b;
+
+        // Muszę przygotować
+        color_r2.Prepare();
+        color_g2.Prepare();
+        color_b2.Prepare();
+
+
+        // delta dla kolorów w incepcji
+        double d2 = (1.0 / precision.Get());
+        if(spiral) d2 /= jumps.Get(); // troszkę inaczej to wygląda dla spirali
+        //
+        double alpha = 0; // aktualny kąt kreślenia okręgu
+        double dAlpha = 2.0 * M_PI / precision.Get(); // delta kąta
+
+        // Pozycje punktów
+        double x = 0, y = 0;
+        double x0 = 0, y0 = 0;
+
+        // Promień
+        double r;
+        double rr = radius.Get(); // taka tak kopia
+        // W przypadku spirali promień się będzie zmieniać
+        if(spiral) r = 0; else r = rr;
+
+        double jj; // Iloć skoków pętli dużej
+        if(spiral) jj = jumps.Get(); else jj = 1;
+
+        for(int j = 0; j < jj; j++) // pętla duża, do spirali
+        for(int i = 0; i < precision.Get(); i++) // pętla mała, dokładność
+        {
+
+
+            // kąt
+            alpha += dAlpha;
+
+            // kolor
+            color_r2.Update(d2);
+            color_g2.Update(d2);
+            color_b2.Update(d2);
+
+            // promień
+            if(spiral) r += jump.Get() / precision.Get() * rr;
+
+            // punkty
+            x0 = x;
+            y0 = y;
+
+            x = (video.GetResolutionWidth()/2)
+                    + r * scale_x.Get() * cos(alpha * factor_x_cos.Get());
+            y = (video.GetResolutionHeight()/2)
+                    + r * scale_y.Get() * sin(alpha * factor_y_sin.Get());
+
+            // jeżeli trzeba rysować to rysuj
+            if(i>0 || j != 0 )
+            cv::line(
+                video.Frame, // na klatce widea
+                cv::Point(x0, y0), // od
+                cv::Point(x,y), // do
+                cv::Scalar(color_b2.Get(), color_g2.Get(), color_r2.Get()), // kolorem
+                1, // o grubości 1
+                CV_AA); // z aintialastiniem
+
+
+        }
+
+        // wyrenderuj!
         video.RenderFrame();
-    }
 
+        tmp += delta;
+        total +=delta;
+    }
+    std::cout<<(total)*100<<"% <=> "<<totalFrames - currentFrames<<" <><> "<<currentFrames<<" / "<<totalFrames<<std::endl;
+
+    std::cout<<"Ukończono renderowanie"<<std::endl;
 
 }
-*/
+
 

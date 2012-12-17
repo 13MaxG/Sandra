@@ -67,12 +67,7 @@ public:
 
     virtual void Update(double d);
 
-    /**
-     * @bierf Stwórz pojedynczą klatkę
-     *
-     * Wylicza aktualną klatkę. Jest ona gotowa do wyrenderowania
-     */
-    virtual void CreateFrame();
+
 
     /**
      * @brief pezed renderowaniem
@@ -80,7 +75,7 @@ public:
      * Wpisać do niej rzec które powinny się oliczyć zamin zacznie się renderować.
      * (pętla z tworzeniem klatek)
      */
-    virtual void BeforeRedner();
+    void BeforeRedner();
 
     /**
      * @brief Renderuj do pliku
@@ -90,9 +85,10 @@ public:
      * Następnie w pętli tworzy wszytskie klatki jakie mają być zamierzone.
      * Klatki tworzy metodą CreateFrame. Po stworzeniu każdej klatki jest ona zapisywana do pliku.
      *
-     * Kiedyś można było stworzyć pochodną tej funkcji, ale uznałem że tak będzie mniej kopiowania.
+     * Nie jest rozbita na mniejsze podfukncje, dlatego że czasami możesz wymyślić jakieś optymalizacje, którym będą podfunkcje przeszkadzać.
+     * Niestety część kodu lepiej spokojnie przekopiować
      */
-    void Render(double info);
+    virtual  void Render(double info);
 
 };
 
