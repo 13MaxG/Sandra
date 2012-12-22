@@ -176,15 +176,29 @@ void Mandelbrot::Render(double info)
         double width; // Układ współrzednych, cześć rzeczywista
         double height; // -..- część urojona
 
-        if(frameWidth > frameHeight)
+
+
+//        if(frameWidth > frameHeight)
+//        {
+//            height = 2.0  / zoom;
+//            width = (frameWidth / frameHeight) * height;
+//        } else
+//        {
+//            width = 3.5  / zoom;
+//            height = (frameHeight / frameWidth) * width;
+//        }
+
+        width = (frameWidth / frameHeight) * height;
+        height = (frameHeight / frameWidth) * width;
+
+        if(width > height)
         {
-            height = 2.0  / zoom;
-            width = (frameWidth / frameHeight) * height;
-        } else
-        {
-            width = 3.5  / zoom;
-            height = (frameHeight / frameWidth) * width;
+
+        } else {
+
         }
+
+
 
         double minRe, maxRe;
         double minIm, maxIm;

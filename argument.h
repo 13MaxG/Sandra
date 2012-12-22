@@ -83,6 +83,14 @@ public:
     T Get();
 
     /**
+     * @brief Zwraca wartość w danym procencie płnnej zmiany. Nie stosować w pętlach, szczególnie dla Video. Dla Video jest zwykłe Get, a to jes dla Picture
+     * @param at procent płynnej zmiany
+     *
+     * Duża część kodu wspólnego z Update.
+    */
+    T GetAbsolute(double at);
+
+    /**
      * @brief Zwraca aktualny czas
      */
     double GetTime();

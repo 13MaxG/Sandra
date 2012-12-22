@@ -181,6 +181,53 @@ T Argument<T>::Get()
 }
 
 template<typename T>
+T Argument<T>::GetAbsolute(double at)
+{
+    Key<T> n; // Nowa wartość zmiennej
+    n.Time = 0;
+
+    typename std::list < Key<T> >::iterator iprev = data.begin();
+    typename std::list < Key<T> >::iterator inext = data.begin();
+
+    // Złap takie elementy kluczowe aby obejmowały aktualny czas
+    // (zwykle wystarczy jeden obieg)
+    while(at >= (*next).Time)
+    {
+        // Skocz do elementów dalszch o jeden
+        iprev++;
+        inext++;
+        // (zabezpieczenie)
+        // Jeżeli element następny uderzy w koniec listy
+        // to element poprzedni i następny to ostatni element
+        if((inext) == data.end())
+        {
+            inext--;
+            iprev--;
+            break;
+        }
+    }
+    //(zabezpieczenie)
+    // jeżeli jest tylko jeden element
+    if(inext == data.begin())
+    {
+        iprev = inext;
+    }
+
+    double per; // Procent przejścia pomiędzy wartościami kluczowymi
+    per = ( at -(*prev).Time) / ((*next).Time - (*prev).Time);
+
+    //(zabezpieczenie) zadbaj o przypadki graniczne
+    if(per > 1.0) per = 1.0;
+
+    n.Time = at;
+    // Aktualna wartość
+    n.Value  = round( per * ((*next).Value - (*prev).Value) + (*prev).Value );
+    // Gotowe
+    return n.Value;
+
+}
+
+template<typename T>
 double Argument<T>::GetTime()
 {
     return current.Time;
