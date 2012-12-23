@@ -1,36 +1,36 @@
-#ifndef MANDELBROT_H
-#define MANDELBROT_H
+//#ifndef MANDELBROT_H
+//#define MANDELBROT_H
 
-#include "system.h"
+//#include "system.h"
 
-class Mandelbrot : public System
-{
-private:
-    Argument<unsigned  int> iterations;
+//class Mandelbrot : public System
+//{
+//private:
+//    Argument<unsigned  int> iterations;
 
-public:
-    Mandelbrot();
+//public:
+//    Mandelbrot();
 
-    /**
-     * @brief Wczytaj konfiguracje z pliku
-     * @param fileName nazwa pliku z konfiguracją
-     */
-    void Load(char *fileName);
-    /**
-     * @brief Przygotuj zmienne
-     */
-    void Prepare();
+//    /**
+//     * @brief Wczytaj konfiguracje z pliku
+//     * @param fileName nazwa pliku z konfiguracją
+//     */
+//    void Load(char *fileName);
+//    /**
+//     * @brief Przygotuj zmienne
+//     */
+//    void Prepare();
 
-    /**
-     * @brief Auaktualnij zmienne
-     * @param d przyrost procenu animacji(1 - 100%)
-     */
-    void Update(double d);
+//    /**
+//     * @brief Auaktualnij zmienne
+//     * @param d przyrost procenu animacji(1 - 100%)
+//     */
+//    void Update(double d);
 
-    /**
-     * @brief Rendeuje animacje
-     */
-    void Render(double info);
-};
+//    /**
+//     * @brief Rendeuje animacje
+//     */
+//    void Render(double info);
+//};
 
-#endif // MANDELBROT_H
+//#endif // MANDELBROT_H

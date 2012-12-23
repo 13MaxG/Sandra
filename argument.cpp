@@ -191,7 +191,7 @@ T Argument<T>::GetAbsolute(double at)
 
     // Złap takie elementy kluczowe aby obejmowały aktualny czas
     // (zwykle wystarczy jeden obieg)
-    while(at >= (*next).Time)
+    while(at <= (*inext).Time)
     {
         // Skocz do elementów dalszch o jeden
         iprev++;

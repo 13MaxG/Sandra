@@ -11,7 +11,10 @@ HEADERS += \
     command.h \
     lissajous.h \
     convert.h \
-    mandelbrot.h
+    mandelbrot.h \
+    image.h \
+    operator.h \
+    operatoritem.h
 
 SOURCES += main.cpp \
     system.cpp \
@@ -20,7 +23,10 @@ SOURCES += main.cpp \
     video.cpp \
     command.cpp \
     lissajous.cpp \
-    mandelbrot.cpp
+    mandelbrot.cpp \
+    image.cpp \
+    operator.cpp \
+    operatoritem.cpp
 
 CONFIG += link_pkgconfig
 PKGCONFIG += opencv

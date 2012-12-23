@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 
+#include "system.h"
 #include "lissajous.h"
 #include "mandelbrot.h"
 
@@ -12,7 +13,7 @@ int main( int argc, char* argv[] )
     cout<<"# Andrzej (Wem) Golonka, 2012"<<endl;
     cout<<"# http://WiecznyWem.tk"<<endl;
 
-    System *system;
+    System *system = new System();
 
 
     char* config = "config.txt";
@@ -33,11 +34,11 @@ int main( int argc, char* argv[] )
 
     if(name == "#Lissajous")
     {
-        system = new Lissajous();
+      //  system = new Lissajous();
     } else
     if(name == "#Mandelbrot")
     {
-        system = new Mandelbrot();
+        //system = new Mandelbrot();
     } else
     {
         ok  = false;
@@ -48,7 +49,7 @@ int main( int argc, char* argv[] )
     {
         cout<<"Animacja: "<<name<<endl;
         system->Load(config);
-        system->Render(info);
+        system->Render();
     }
 
     return 0;
