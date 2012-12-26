@@ -16,12 +16,17 @@ void Command::Analize(std::string command, unsigned int line = 0)
 {
     _ok = true; // Jak narazie wszystko wydaje się być w porządku
 
+
     // Zobacz czy czasem polecenie nie ma zostać pominięte
-    if(command[0] == '#')
+    if(command[0] == '#' || command.size() <=1)
     {
         _ok = false;
         return;
     }
+
+
+    /*
+    bool skip = false;
 
     // Usuń komentarze
     size_t tmp = command.find('{'); // od
@@ -40,24 +45,47 @@ void Command::Analize(std::string command, unsigned int line = 0)
         }
         tmp=command.find("{", tmp+1);
     }
-
+    */
 
 
     size_t x; // Numer znaku w którym znajduje się początek nawiasu
     x = command.find("(")+1;
 
+    bool skip = false;
     //wyczyść białe znaki w arumenach
+    // pomiń fragmenty które znajduja sie w cudzyslowach
+    // uwaga: zagnieżdzanie cudzyslowuch nie dziala.
+    // lepiej nie używać ich wielokrotnie
+    size_t pre, cur;
     for(size_t i= x; i < command.size(); i++)
     {
 
-        if(isspace(command[i]) != 0 ) command.erase(i, 1);
+        if(command[i] == '"')
+        {
+            if(skip)  {
+                skip = false;
+                cur = i - 1;
+                command.erase(pre, 1);
+                command.erase(cur, 1);
+                i-=2;
+
+            } else {
+                skip = true;
+                pre = i;
+            }
+            continue;
+        }
+
+
+        if(skip == false)
+            if(isspace(command[i]) != 0 ){ command.erase(i, 1);  i--;}
     }
 
     _name = command.substr(0, x-1); // Wyłuskaj nazwę polecenia
 
     _number_of_argument = 0; // Na początku było... nic nie było?
 
-    size_t e = command.find(");"); // Znajdź koniec
+    size_t e = command.find(")"); // Znajdź koniec
 
     // jeżeli odległość robi znaczenie, to coś tam musi być!
     if(e - x > 0) _number_of_argument = 1;

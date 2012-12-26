@@ -14,7 +14,7 @@
 #include "video.h"
 #include "convert.h"
 #include "operator.h"
-
+#include "image.h"
 
 /**
  * @brief Główna klasa animacji.
@@ -29,6 +29,8 @@ protected:
      * @brief Operator na pliku wideo
      */
     Video video;
+    Image image;
+
     /**
      * @brief Plik z konfiuracją
      */
@@ -37,54 +39,31 @@ protected:
     /**
      * @brief Aktualna klatka
      */
-    unsigned long long currentFrames;
+    unsigned long long currentFrame;
     /**
      * @brief Całkowita ilość klatek
      */
     unsigned long long totalFrames;
-    /**
-     * @brief Czas trwania animacji
-     */
-    unsigned long long totalTime;
+
 
     /**
      *@brief Po prostu delta
      */
     double delta;
 
+    std::string filetype;
+    std::string filename;
 
-    //    std::map<std::string, Argument<double> > MapArgDouble;
-    //    std::list<std::string> MapArgDoubleNames;
+    unsigned int width, height;
 
-    //    std::map<std::string, Argument<int> > MapArgInt;
-    //    std::list<std::string> MapArgIntNames;
+    unsigned int compression;
+    double image_time;
 
-    //    std::map<std::string, Argument<unsigned int> > MapArgUInt;
-    //    std::list<std::string> MapArgUIntNames;
+    double fps;
+    double time;
+    std::string codec;
 
-    //    std::map<std::string, double > MapDouble;
-    //    std::list<std::string> MapDoubleNames;
-
-    //    std::map<std::string, int > MapInt;
-    //    std::list<std::string> MapIntNames;
-
-    //    std::map<std::string, unsigned int > MapUInt;
-    //    std::list<std::string> MapUIntNames;
-
-
-    //    std::map<std::string, std::string > MapString;
-    //    std::list<std::string> MapStringNames;
-
-    //    std::map<std::string, bool > MapBool;
-    //    std::list<std::string> MapBoolNames;
-
-        std::map<std::string, double* > MapDouble;
-        std::list<std::string> MapDoubleNames;
-
-        Operator oper;
-
-        double sqrt2;
-        Argument<double> Piernik;
+    Operator repository;
 
 public:
     System();
@@ -94,9 +73,9 @@ public:
     void Render();
 
     void PrepareArgs();
-    void UpdateArgs(double dt);
+    void UpdateArgs( double dt);
 
-    virtual void DrawFrame(double dt);
+    virtual void DrawFrame(cv::Mat frame);
     virtual void Before();
     virtual void After();
 

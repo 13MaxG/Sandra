@@ -63,6 +63,9 @@ public:
     void Register(std::string name, Argument<int>* object);
     void Register(std::string name, Argument<unsigned int>* object);
 
+
+    void PrepareArgs();
+    void UpdateArgs(double dt);
 };
 
 #endif // OPERATOR_H

@@ -56,7 +56,7 @@ int main( int argc, char* argv[] )
 
     if(name == "#Lissajous")
     {
-      //  system = new Lissajous();
+        system = new Lissajous();
     } else
     if(name == "#Mandelbrot")
     {

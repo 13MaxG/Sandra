@@ -8,6 +8,7 @@ bool Operator::Add(Command *command)
 {
     bool finded = false;
 
+
     //_arg_double
     for(std::list<OperatorItem< Argument<double> > >::iterator iter = _arg_double.begin(); iter != _arg_double.end(); ++iter )
     {
@@ -16,6 +17,7 @@ bool Operator::Add(Command *command)
             finded = true;
 
             (*(*iter).object).Set( Key<double>(  fromString<double>((*command)[0]), fromString<double>((*command)[1]) ) );
+
         }
     }
 
@@ -95,7 +97,6 @@ bool Operator::Add(Command *command)
             *(*iter).object = (*command)[0];
         }
     }
-
     return finded;
 }
 
@@ -138,4 +139,47 @@ void Operator::Register(std::string name, Argument<int>* object)
 void Operator::Register(std::string name, Argument<unsigned int>* object)
 {
     _arg_uint.push_back( OperatorItem< Argument<unsigned int> >(object, name));
+}
+
+
+void Operator::PrepareArgs()
+{
+    //_arg_double
+    for(std::list<OperatorItem< Argument<double> > >::iterator iter = _arg_double.begin(); iter != _arg_double.end(); ++iter )
+    {
+        (*(*iter).object).Prepare();
+    }
+
+    //_arg_int
+    for(std::list<OperatorItem< Argument<int> > >::iterator iter = _arg_int.begin(); iter != _arg_int.end(); ++iter )
+    {
+         (*(*iter).object).Prepare();
+    }
+
+    //_arg_uint
+    for(std::list<OperatorItem< Argument<unsigned int> > >::iterator iter = _arg_uint.begin(); iter != _arg_uint.end(); ++iter )
+    {
+         (*(*iter).object).Prepare();
+    }
+}
+
+void Operator::UpdateArgs( double dt)
+{
+    //_arg_double
+    for(std::list<OperatorItem< Argument<double> > >::iterator iter = _arg_double.begin(); iter != _arg_double.end(); ++iter )
+    {
+        (*(*iter).object).Update(dt);
+    }
+
+    //_arg_int
+    for(std::list<OperatorItem< Argument<int> > >::iterator iter = _arg_int.begin(); iter != _arg_int.end(); ++iter )
+    {
+         (*(*iter).object).Update(dt);
+    }
+
+    //_arg_uint
+    for(std::list<OperatorItem< Argument<unsigned int> > >::iterator iter = _arg_uint.begin(); iter != _arg_uint.end(); ++iter )
+    {
+         (*(*iter).object).Update(dt);
+    }
 }
