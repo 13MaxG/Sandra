@@ -60,7 +60,7 @@ int main( int argc, char* argv[] )
     } else
     if(name == "#Mandelbrot")
     {
-        //system = new Mandelbrot();
+        system = new Mandelbrot();
     } else
     {
         ok  = false;

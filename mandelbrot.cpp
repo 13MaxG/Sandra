@@ -1,140 +1,159 @@
-//#include "mandelbrot.h"
-//#include <complex>
+#include "mandelbrot.h"
+#include <complex>
 
-//Mandelbrot::Mandelbrot()
-//{
-//}
+Mandelbrot::Mandelbrot() : System()
+{
+    repository.Register("color_r", &c_r);
+    repository.Register("color_g", &c_g);
+    repository.Register("color_b", &c_b);
+    repository.Register("iterations", &max_iter);
+    repository.Register("pointX", &px);
+    repository.Register("pointY", &py);
+    repository.Register("scale", &s);
+    repository.Register("coloring", &coloring);
+}
 
-//void Mandelbrot::Load(char *fileName)
-//{
-//    // Otwórz plik z koniguracją
-//    file.open(fileName, std::ios::in);
+void Mandelbrot::Before()
+{
 
-//    std::string line; // pojedyna linia
-//    Command command; // analizowanie polecenia
+}
 
-//    int i = 0; // linia nr...
-//    while(true)
-//    {
-//        i++;
-//        std::getline(file, line); // wcztaj jedną linijkę
-//        if(file.eof()) break; // skończ jeżeli trzeba
+void Mandelbrot::After()
+{
 
-//        command.Analize(line, i); // przeanalizuj
+}
 
-//        // jeżeli coś jest nie wporządku to pomiń polecenie
-//        if(!command.isOk()) continue;
-
-//        // Ważny moment!
-//        // wczytywanie parametrów
-//// Dotyczące wideo
-
-//        // Nazwa pliku
-//        if(command.Name() == "video_file_name")
-//        {
-//            if(command.NumbersOfArgument() == 1)
-//            {
-//                video.SetFileName(command[0]);
-//            } else
-//                std::cout<<"("<<i<<"): Błąd: niepoprawna ilość argumentów dla teo polecenia"<<std::endl;
-
-//        } else
-//// Szerokość klatki
-//        if(command.Name() == "video_resolution_width")
-//        {
-//            if(command.NumbersOfArgument() == 1)
-//            {
-
-//                video.SetResolutionWidth(fromString< unsigned int > (command[0]));
-//            } else
-//                 std::cout<<"("<<i<<"): Błąd: niepoprawna ilość argumentów dla teo polecenia: "<<command.NumbersOfArgument()<<std::endl;
-
-//        } else
-//// Wysokość klatki
-//        if(command.Name() == "video_resolution_height")
-//        {
-//            if(command.NumbersOfArgument() == 1)
-//            {
-
-//                video.SetResolutionHeight(fromString< unsigned int > (command[0]));
-//            } else
-//                std::cout<<"("<<i<<"): Błąd: niepoprawna ilość argumentów dla teo polecenia"<<std::endl;
-
-//        } else
-//// Ilość klatek na sekundę
-//        if(command.Name() == "video_fps")
-//        {
-//            if(command.NumbersOfArgument() == 1)
-//            {
-
-//                video.SetFPS(fromString< unsigned int > (command[0]));
-//            } else
-//                std::cout<<"("<<i<<"): Błąd: niepoprawna ilość argumentów dla teo polecenia: "<<command.NumbersOfArgument()<<std::endl;
-
-//        }  else
-////KODEK
-//        if(command.Name() == "video_codec")
-//        {
-//            if(command.NumbersOfArgument() == 1)
-//            {
-//                video.SetCodec(command[0]);
-//            } else
-//                std::cout<<"("<<i<<"): Błąd: niepoprawna ilość argumentów dla teo polecenia"<<std::endl;
-
-//        } else
-//// Czas trwania
-//        if(command.Name() == "duration_time")
-//        {
-//            if(command.NumbersOfArgument() == 1)
-//            {
-
-//                totalTime = fromString< unsigned int > (command[0]);
-//            } else
-//                 std::cout<<"("<<i<<"): Błąd: niepoprawna ilość argumentów dla teo polecenia: "<<command.NumbersOfArgument()<<std::endl;
-
-//        } else
-//// czas trwania w klatkach
-//        if(command.Name() == "duration_frames")
-//        {
-//            if(command.NumbersOfArgument() == 1)
-//            {
-
-//                totalFrames = fromString< unsigned int > (command[0]);
-//            } else
-//                 std::cout<<"("<<i<<"): Błąd: niepoprawna ilość argumentów dla teo polecenia: "<<command.NumbersOfArgument()<<std::endl;
-
-//        } else
+void Mandelbrot::DrawFrame(cv::Mat frame)
+{
+    // Całego mandelbrota trzeba napisać od nowa
 
 
-//        if(command.Name() == "set_iterations")
-//        {
-//            if(command.NumbersOfArgument() == 2)
-//            {
 
-//                iterations.Set(Key<unsigned int>( fromString< unsigned int > (command[0]), fromString< double > (command[1])) );
-//            } else
-//                 std::cout<<"("<<i<<"): Błąd: niepoprawna ilość argumentów dla teo polecenia: "<<command.NumbersOfArgument()<<std::endl;
 
-//        }
-//// brak
-//        else
-//        {
+    double pointX = px.Get(), pointY = py.Get();
+    double scale = s.Get();
 
-//            std::cout<<"("<<i<<"): Błąd: nie znaleziono polecenia"<<std::endl;
-//        }
-//    }
-//}
+    double frameRatio = (double)width / (double)height;
 
-//void Mandelbrot::Prepare()
-//{
-//    iterations.Prepare();
-//}
+    double cwidth = 0, cheight = 0;
 
-//void Mandelbrot::Update(double d)
-//{
-//    iterations.Update(d);
-//}
+    cwidth = 3.0 * scale;
+    cheight =  cwidth / frameRatio;
 
+    double minRe, maxRe;
+    double minIm, maxIm;
+
+    minRe = pointX - cwidth / 2.0;
+    maxRe = pointX + cwidth / 2.0;
+
+    minIm = pointY - cheight / 2.0;
+    maxIm = pointY + cheight / 2.0;
+
+
+    unsigned int maxIterations = max_iter.Get();
+
+    //std::cout<<"minRe: "<<minRe<<"; maxRe: "<<maxRe<<std::endl;
+    //std::cout<<"minIm: "<<minIm<<"; maxIm: "<<maxIm<<std::endl;
+
+
+    bool classic = false;
+
+    if(coloring == "classic")
+        classic = true;
+
+
+    double xxx = 0;
+    for(int y = 0; y < height; ++y)
+    {
+        double cIm = maxIm - (double)y*(double)(  (maxIm-minIm)/(height-1) );
+      //  std::cout<<"Y: "<<cIm<<std::endl;
+        for(int x = 0; x < width; ++x)
+        {
+            Argument<double> color_r = c_r;
+            Argument<double> color_g = c_g;
+            Argument<double> color_b = c_b;
+
+            color_r.Prepare();
+            color_g.Prepare();
+            color_b.Prepare();
+
+            double cRe = minRe + (double)x*(double)  (  (maxRe-minRe)/(width-1) );
+          // std::cout<<"    X: "<<cRe<<std::endl;
+
+            double zRe = cRe;
+            double zIm = cIm;
+            bool inside = true;
+
+
+            double m = std::exp(-1.0 * sqrt( zRe*zRe + zIm*zIm ) ) ;
+            for(int i = 1; i <= maxIterations; i++)
+            {
+                if(classic)
+                {
+                    color_b.Update(1.0/(double)maxIterations);
+                    color_g.Update(1.0/(double)maxIterations);
+                    color_r.Update(1.0/(double)maxIterations);
+                }
+
+
+
+                m += std::exp(-1.0 * sqrt( zRe*zRe + zIm*zIm ) ) ;
+
+             //  std::cout<<"TROLOLO: "<<x<<std::endl;
+               double zIm2 = zIm*zIm;
+               zIm = 2 * zRe*zIm + cIm;
+               zRe = zRe*zRe - zIm2 + cRe;
+
+                if( zRe*zRe + zIm*zIm > 4 )
+                {
+                    inside = false;
+
+
+
+                    if(classic)
+                    {
+
+                        frame.data[frame.step*y + frame.channels()* x + 0] = color_b.Get();
+                        frame.data[frame.step*y + frame.channels()* x +1] = color_g.Get();
+                        frame.data[frame.step*y + frame.channels()* x + 2] = color_r.Get();
+
+                    }
+
+                    break;
+                }
+
+
+            }
+
+            if(!classic)
+            {
+                m /= (double)maxIterations;
+
+                //m = tan(m)/tan(1);
+                //if(xxx < m) xxx = m;
+                //std::cout<<"m: "<<m<<std::endl;
+                frame.data[frame.step*y + frame.channels()* x + 0] = color_b.GetAbsolute(m);
+                frame.data[frame.step*y + frame.channels()* x +1] = color_g.GetAbsolute(m);
+                frame.data[frame.step*y + frame.channels()* x + 2] = color_r.GetAbsolute(m);
+            }
+
+            if(inside)
+            {
+                //if(!classic)
+                //{
+                    frame.data[frame.step*y + frame.channels()* x + 0] = 0;
+                    frame.data[frame.step*y + frame.channels()* x +1] = 0;
+                    frame.data[frame.step*y + frame.channels()* x + 2] = 0;
+                //}
+
+
+            }
+        }
+    }
+   // std::cout<<"XXX: "<<xxx<<std::endl;
+
+
+}
 
 
 //void Mandelbrot::Render(double info)
@@ -188,31 +207,7 @@
 ////            height = (frameHeight / frameWidth) * width;
 ////        }
 
-//        width = (frameWidth / frameHeight) * height;
-//        height = (frameHeight / frameWidth) * width;
 
-//        if(width > height)
-//        {
-
-//        } else {
-
-//        }
-
-
-
-//        double minRe, maxRe;
-//        double minIm, maxIm;
-
-//        minRe = pointX - width / 2.0;
-//        maxRe = pointX + width / 2.0;
-
-//        minIm = pointY - height / 2.0;
-//        maxIm = pointY + height / 2.0;
-
-//        unsigned int maxIterations = iterations.Get();
-
-//        std::cout<<"minRe: "<<minRe<<"; maxRe: "<<maxRe<<std::endl;
-//        std::cout<<"minIm: "<<minIm<<"; maxIm: "<<maxIm<<std::endl;
 
 
 //        /*

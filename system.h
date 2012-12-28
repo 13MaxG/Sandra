@@ -7,7 +7,7 @@
 #include <cmath>
 #include <map>
 #include <list>
-
+#include <ctime>
 
 #include "command.h"
 #include "argument.h"

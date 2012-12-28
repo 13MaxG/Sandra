@@ -1,36 +1,31 @@
-//#ifndef MANDELBROT_H
-//#define MANDELBROT_H
+#ifndef MANDELBROT_H
+#define MANDELBROT_H
 
-//#include "system.h"
+#include "system.h"
 
-//class Mandelbrot : public System
-//{
-//private:
-//    Argument<unsigned  int> iterations;
+class Mandelbrot : public System
+{
+private:
+    Argument<unsigned  int> iterations;
 
-//public:
-//    Mandelbrot();
+    std::string coloring;
+    Argument<double> px, py;
+    Argument<double> s;
+    Argument<double> c_r ;
+    Argument<double> c_g ;
+    Argument<double> c_b ;
+    Argument<unsigned  int > max_iter ;
 
-//    /**
-//     * @brief Wczytaj konfiguracje z pliku
-//     * @param fileName nazwa pliku z konfiguracją
-//     */
-//    void Load(char *fileName);
-//    /**
-//     * @brief Przygotuj zmienne
-//     */
-//    void Prepare();
+public:
+    Mandelbrot();
 
-//    /**
-//     * @brief Auaktualnij zmienne
-//     * @param d przyrost procenu animacji(1 - 100%)
-//     */
-//    void Update(double d);
+    void Before();
+    void After();
 
-//    /**
-//     * @brief Rendeuje animacje
-//     */
-//    void Render(double info);
-//};
+    /**
+     * @brief Rendeuje animacje
+     */
+    void DrawFrame(cv::Mat frame);
+};
 
-//#endif // MANDELBROT_H
+#endif // MANDELBROT_H

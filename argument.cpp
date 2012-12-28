@@ -188,10 +188,10 @@ T Argument<T>::GetAbsolute(double at)
 
     typename std::list < Key<T> >::iterator iprev = data.begin();
     typename std::list < Key<T> >::iterator inext = data.begin();
-
+    inext++;
     // Złap takie elementy kluczowe aby obejmowały aktualny czas
     // (zwykle wystarczy jeden obieg)
-    while(at <= (*inext).Time)
+    while(at >= (*inext).Time)
     {
         // Skocz do elementów dalszch o jeden
         iprev++;
@@ -214,14 +214,14 @@ T Argument<T>::GetAbsolute(double at)
     }
 
     double per; // Procent przejścia pomiędzy wartościami kluczowymi
-    per = ( at -(*prev).Time) / ((*next).Time - (*prev).Time);
+    per = ( at -(*iprev).Time) / ((*inext).Time - (*iprev).Time);
 
     //(zabezpieczenie) zadbaj o przypadki graniczne
     if(per > 1.0) per = 1.0;
 
     n.Time = at;
     // Aktualna wartość
-    n.Value  = round( per * ((*next).Value - (*prev).Value) + (*prev).Value );
+    n.Value  = per * ((*inext).Value - (*iprev).Value) + (*iprev).Value;
     // Gotowe
     return n.Value;
 

@@ -59,9 +59,11 @@ void System::Load(char *fileName)
 
 void System::Render()
 {
+    filename.append("_"+toString<int>(std::time(0)));
     PrepareArgs();
     if(filetype == "image")
     {
+        filename.append(".png");
         image.SetWidth(width);
         image.SetHeight(height);
         image.SetCompression(compression);
@@ -78,7 +80,7 @@ void System::Render()
     if(filetype == "video")
     {
 
-
+        filename.append(".avi");
         totalFrames = time * fps;
         currentFrame = 0;
 
