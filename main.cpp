@@ -14,7 +14,6 @@ int main( int argc, char* argv[] )
     cout<<"# Andrzej (Wem) Golonka, 2012"<<endl;
     cout<<"# http://WiecznyWem.tk"<<endl;
 
-
     Image img;
     img.SetFileName("Wyjście.png");
     img.SetCompression(9);

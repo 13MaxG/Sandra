@@ -11,6 +11,7 @@ Mandelbrot::Mandelbrot() : System()
     repository.Register("pointY", &py);
     repository.Register("scale", &s);
     repository.Register("coloring", &coloring);
+    repository.Register("radius", &r);
 }
 
 void Mandelbrot::Before()
@@ -58,9 +59,12 @@ void Mandelbrot::DrawFrame(cv::Mat frame)
 
     bool classic = false;
 
+    double radius = r.Get();
+
     if(coloring == "classic")
         classic = true;
 
+    bool black_hole = true;
 
     double xxx = 0;
     for(int y = 0; y < height; ++y)
@@ -84,10 +88,12 @@ void Mandelbrot::DrawFrame(cv::Mat frame)
             double zIm = cIm;
             bool inside = true;
 
-
+int nnn=  0;
+            double abs = sqrt( zRe*zRe + zIm*zIm );
             double m = std::exp(-1.0 * sqrt( zRe*zRe + zIm*zIm ) ) ;
-            for(int i = 1; i <= maxIterations; i++)
+            for(int i = 1; i <= maxIterations ; i++)
             {
+                nnn = i;
                 if(classic)
                 {
                     color_b.Update(1.0/(double)maxIterations);
@@ -97,14 +103,23 @@ void Mandelbrot::DrawFrame(cv::Mat frame)
 
 
 
-                m += std::exp(-1.0 * sqrt( zRe*zRe + zIm*zIm ) ) ;
+                m += std::exp(-1.0 * abs ) ;
 
              //  std::cout<<"TROLOLO: "<<x<<std::endl;
                double zIm2 = zIm*zIm;
                zIm = 2 * zRe*zIm + cIm;
                zRe = zRe*zRe - zIm2 + cRe;
+               abs = sqrt( zRe*zRe + zIm*zIm );
 
-                if( zRe*zRe + zIm*zIm > 4 )
+               if(abs > radius)
+               {
+                   inside = false;
+                   break;
+
+               }
+
+               if( classic&&abs > 2)
+                //if( zRe*zRe + zIm*zIm > 4 )
                 {
                     inside = false;
 
@@ -124,20 +139,34 @@ void Mandelbrot::DrawFrame(cv::Mat frame)
 
 
             }
-
             if(!classic)
             {
-                m /= (double)maxIterations;
+               // m*= (double)nnn;
+                // m/= (double)maxIterations;
 
                 //m = tan(m)/tan(1);
                 //if(xxx < m) xxx = m;
                 //std::cout<<"m: "<<m<<std::endl;
-                frame.data[frame.step*y + frame.channels()* x + 0] = color_b.GetAbsolute(m);
-                frame.data[frame.step*y + frame.channels()* x +1] = color_g.GetAbsolute(m);
-                frame.data[frame.step*y + frame.channels()* x + 2] = color_r.GetAbsolute(m);
+
+                //0.5+0.5*math.sin(n - math.log(abs(v))
+                //0.5+0.5*log2 ( sqrt( zRe*zRe + zIm*zIm ) )
+
+                 //m = 0.5+ 0.5* sin (  m );
+
+
+                m =0.5+ 0.5* sin (  nnn -   (  log2 (  abs ) / log2(radius)      ))  ;
+                 //m =0.5+ 0.5* sin (  nnn - log (  abs )  );
+
+                 frame.data[frame.step*y + frame.channels()* x + 0] = color_b.GetAbsolute(m);
+                 frame.data[frame.step*y + frame.channels()* x +1] = color_g.GetAbsolute(m);
+                 frame.data[frame.step*y + frame.channels()* x + 2] = color_r.GetAbsolute(m);
+
+               // frame.data[frame.step*y + frame.channels()* x + 0] = color_b.GetAbsolute(m);
+                //frame.data[frame.step*y + frame.channels()* x +1] = color_g.GetAbsolute(m);
+               // frame.data[frame.step*y + frame.channels()* x + 2] = color_r.GetAbsolute(m);
             }
 
-            if(inside)
+            if(black_hole&& inside)
             {
                 //if(!classic)
                 //{

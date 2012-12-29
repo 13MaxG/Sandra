@@ -15,6 +15,7 @@ private:
     Argument<double> c_g ;
     Argument<double> c_b ;
     Argument<unsigned  int > max_iter ;
+    Argument<double> r;
 
 public:
     Mandelbrot();
