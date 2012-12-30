@@ -8,6 +8,7 @@ Video::Video()
 
 void Video::Restart()
 {
+    // wypadki chodzą po użytkownikach
     _lock = false;
     SetFileName("video.avi");
     SetCodec("DIVX");
@@ -15,34 +16,28 @@ void Video::Restart()
     SetResolutionHeight(720);
     SetFPS(30);
     ClearFrame();
-
 }
 
 void Video::Prepare()
 {
-    _lock = true;
-        //CV_FOURCC('D', 'I', 'V', 'X')
-       // CV_FOURCC('D', 'I', 'B', ' ')
-    //CV_FOURCC('i','Y', 'U', 'V')
-    //CV_FOURCC('I','Y', 'U', 'V')
-    //I420  CV_FOURCC('I','4', '2', '0')
+    _lock = true; // nawet blokada jest
+
+    // Zainicjuj plik z wideo
     _writer.open(GetFileName() , CV_FOURCC(GetCodec()[0], GetCodec()[1], GetCodec()[2], GetCodec()[3]) , GetFPS(), cv::Size(GetResolutionWidth(), GetResolutionHeight()), true);//open(GetFileName(), CV_FOURCC( GetCodec()[0], GetCodec()[1], GetCodec()[2], GetCodec()[3]), GetFPS(), cv::Size(GetResolutionWidth(), GetResolutionWidth()), true );
+    // i stwórz pierwszą klatkę(nie, nie na chochliki)
     Frame = cv::Mat(cv::Size(GetResolutionWidth(), GetResolutionHeight()),CV_8UC3) ;
 
 }
 
 void Video::ClearFrame()
 {
-    // Stare
-    //delete Frame;
-    //Frame =  new cv::Mat(cv::Size(1920, 1080),CV_8UC3) ;
-
     //Czarne tło; Wiem że PRYMITYWnie, ale nie mam lepszeo pomysłu
     cv::rectangle(Frame, cv::Point(0,0), cv::Point(GetResolutionWidth(),GetResolutionHeight()), cv::Scalar(0,0, 0),  CV_FILLED, CV_AA) ;
 }
 
 void Video::RenderFrame()
 {
+    // I za to podoba mi się I/O z OpenCV
     _writer << Frame;
     ClearFrame();
 }

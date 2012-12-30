@@ -3,6 +3,7 @@
 
 Image::Image()
 {
+    // na wszelkie wypadki, gdyby ktoś był zapominalski
     _filename = "image.png";
     _compression = 3;
     _width = 800;
@@ -17,20 +18,24 @@ void Image::ClearFrame()
 
 void Image::Prepare()
 {
+    // jak na początek skromie, ale wystarczy
     Frame = cv::Mat(cv::Size(GetWidth(), GetHeight()),CV_8UC3) ;
     ClearFrame();
 }
 
 void Image::RenderImage()
 {
+    // wektor p zawiera konfiguracje pliku graficznego
+    // w tym przypadku aż(tylko) o kompresji
     std::vector<int> p;
     p.push_back(CV_IMWRITE_PNG_COMPRESSION);
     p.push_back(GetCompression());
 
-    std::cout<<"!"<<std::endl;
+    // Zapisz do pliku
     cv::imwrite(GetFileName(), Frame, p);
 }
 
+// Muszę sobie skombinować jakieś pluginy do robienia setterów i getterów...
 
 void Image::SetWidth(unsigned int width)
 {

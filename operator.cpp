@@ -6,10 +6,18 @@ Operator::Operator()
 
 bool Operator::Add(Command *command)
 {
+    // Wiem że jest to brzydkie i mało optymalne, na szczęście wystarczy to zrobić raz
+    // Z indeksowaniem nazw wraz z ich typami nie było by fajnie
+    // a tu prosze, szukaj po wszytskim
+
+    // No nie będę taki, jeżeli już coś masz to nie szukaj dalej
     bool finded = false;
 
 
+
+    // Zaczynam od tego co najczęściej będę wykorzysywać
     //_arg_double
+    if(!finded)
     for(std::list<OperatorItem< Argument<double> > >::iterator iter = _arg_double.begin(); iter != _arg_double.end(); ++iter )
     {
         if((*iter).name == command->Name())
@@ -22,6 +30,7 @@ bool Operator::Add(Command *command)
     }
 
     //_arg_int
+    if(!finded)
     for(std::list<OperatorItem< Argument<int> > >::iterator iter = _arg_int.begin(); iter != _arg_int.end(); ++iter )
     {
         if((*iter).name == command->Name())
@@ -33,6 +42,7 @@ bool Operator::Add(Command *command)
     }
 
     //_arg_uint
+    if(!finded)
     for(std::list<OperatorItem< Argument<unsigned int> > >::iterator iter = _arg_uint.begin(); iter != _arg_uint.end(); ++iter )
     {
         if((*iter).name == command->Name())
@@ -44,6 +54,7 @@ bool Operator::Add(Command *command)
     }
 
     // double
+    if(!finded)
     for(std::list<OperatorItem<double> >::iterator iter = _double.begin(); iter != _double.end(); ++iter )
     {
         if((*iter).name == command->Name())
@@ -55,6 +66,7 @@ bool Operator::Add(Command *command)
     }
 
     // int
+    if(!finded)
     for(std::list<OperatorItem<int> >::iterator iter = _int.begin(); iter != _int.end(); ++iter )
     {
         if((*iter).name == command->Name())
@@ -66,6 +78,7 @@ bool Operator::Add(Command *command)
     }
 
     // unsigned int
+    if(!finded)
     for(std::list<OperatorItem<unsigned int> >::iterator iter = _uint.begin(); iter != _uint.end(); ++iter )
     {
         if((*iter).name == command->Name())
@@ -77,6 +90,7 @@ bool Operator::Add(Command *command)
     }
 
     // bool
+    if(!finded)
     for(std::list<OperatorItem<bool> >::iterator iter = _bool.begin(); iter != _bool.end(); ++iter )
     {
         if((*iter).name == command->Name())
@@ -88,6 +102,7 @@ bool Operator::Add(Command *command)
     }
 
     // string
+    if(!finded)
     for(std::list<OperatorItem<std::string> >::iterator iter = _string.begin(); iter != _string.end(); ++iter )
     {
         if((*iter).name == command->Name())
@@ -97,8 +112,15 @@ bool Operator::Add(Command *command)
             *(*iter).object = (*command)[0];
         }
     }
+
     return finded;
 }
+
+
+// Dalszy kod to czysta maszyneria
+// Ale jest genialna w swej (wyjściowej) prostocie
+// Wystarczy zarejestować nazwę do obiektu i już on sam się nim zajmie
+
 
 void Operator::Register(std::string name, double* object)
 {

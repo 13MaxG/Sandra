@@ -4,6 +4,10 @@
 #include <sstream>
 #include <ctime>
 
+// Funkcje konwertujące obiekty w ciągi znaków i ciągi znaków w obiekty
+// Potrzebne do wczytywania konfiguracji
+
+
 template<typename T>
 std::string toString(T var)
 {

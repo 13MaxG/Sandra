@@ -13,6 +13,9 @@
 /**
  * @brief Sprytne wczytywanie wejścia
  *
+ * Operator... Marna nazwa, z czasem wymyśliłem fajniejszą - repozytorium.
+ * Ale find&repleace może mi nieźle namieszać, a są ważniejsze rzeczy do roboty niż podłoże techniczne
+ *
  * Po pierwsze, to sposób jest sprytny, a nie wykonanie. Na 100%
  * funkcję Add można by zapisać o wiele wiele lepiej. Zależało mi
  * na szbkim efekcie. Jeżeli będziesz mieć nadmiar czasu możesz usprawnić.
