@@ -14,7 +14,9 @@ HEADERS += \
     mandelbrot.h \
     image.h \
     operator.h \
-    operatoritem.h
+    operatoritem.h \
+    buddhabrot.h \
+    random.h
 
 SOURCES += main.cpp \
     system.cpp \
@@ -26,7 +28,9 @@ SOURCES += main.cpp \
     mandelbrot.cpp \
     image.cpp \
     operator.cpp \
-    operatoritem.cpp
+    operatoritem.cpp \
+    buddhabrot.cpp \
+    random.cpp
 
 CONFIG += link_pkgconfig
 PKGCONFIG += opencv

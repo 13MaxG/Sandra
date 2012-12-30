@@ -21,6 +21,7 @@
  *
  * Zawiera wszystkie inormacje dotyczące animacji, przelicza je, oraz renderuje.
  * Jest to szablon, z niego powinny dziedziczyć właściwe animacjie.
+ *
  */
 class System
 {
@@ -29,6 +30,9 @@ protected:
      * @brief Operator na pliku wideo
      */
     Video video;
+    /**
+     * @brief Operator na pliku graficznym
+     */
     Image image;
 
     /**
@@ -40,6 +44,7 @@ protected:
      * @brief Aktualna klatka
      */
     unsigned long long currentFrame;
+
     /**
      * @brief Całkowita ilość klatek
      */
@@ -51,82 +56,113 @@ protected:
      */
     double delta;
 
+    /**
+     * @brief Typ pliku wyjściowego (avi lub png)
+     */
     std::string filetype;
+
+    /**
+     * @brief Nazwa pliku wyjściowego (bez rozszerzenia)
+     */
     std::string filename;
 
-    unsigned int width, height;
+    /**
+     * @brief Czy tworzyć unikalne nazwy
+     */
+    bool diffrentNames;
 
+    /**
+     * @brief Szerokość klatki animacji lub obrazka
+     */
+    unsigned int width;
+
+    /**
+     * @brief Wysokość klatki animacji lub obrazka
+     */
+    unsigned int height;
+
+    /**
+     * @brief Poziom kompresji, 0 - bez, 9 maksymalna, tyczy się tylko PNG
+     *
+     */
     unsigned int compression;
+
+    /**
+     * @brief W którym momencie animacji, ma być renderowana klatka dla obrazu
+     */
     double image_time;
 
+    /**
+     * @brief Ilosć klatek na sekundę
+     */
     double fps;
+
+    /**
+     * @brief Długość animacji (w sekundach)
+     */
     double time;
+
+    /**
+     * @brief Kodek wideo
+     *
+     * "DVIX" - z kompresją
+     * "I420" - bez kompresji, nie wszędzie działa
+     * inne kodeki są takie jakie mogą być FOUR_CC z OpenCV
+     */
     std::string codec;
 
+    /**
+     * @brief Repozytorium ze wskaźnikami do obiektów powiązanymi z nazwa
+     *
+     * Używane do wczytywania parametrów z plików.
+     */
     Operator repository;
+
+
+protected:
+    /**
+     * @brief Przygotuj argumenty (zmieniające się w czasie)
+     */
+    void PrepareArgs();
+
+    /**
+     * @brief Aktualizuj argumenty zmieniające się w czasie
+     * @param dt Przyrost czasu
+     */
+    void UpdateArgs( double dt);
+
+    /**
+     * @brief Renderuj pojedynczą klatkę
+     * @param Macierz na której jest renderowana klatka
+     */
+    virtual void DrawFrame(cv::Mat frame);
+
+    /**
+     * @brief Co się ma wykonać przed procesem renderowania
+     *
+     * Można wykorzystać do niestandardowego skonfigurowania parametrów
+     */
+    virtual void Before();
+
+    /**
+     * @brief Co się ma wykonać zaraz po zakończeniu renderowania
+     */
+    virtual void After();
 
 public:
     System();
     virtual ~System(); // ma być, bo inaczej nie działa
 
+    /**
+     * @brief Wczytaj parametry
+     * @param fileName nazwa pliku
+     */
     void Load(char* fileName);
+
+    /**
+     * @brief Renderuj, z podanymi ustawieniami
+     */
     void Render();
-
-    void PrepareArgs();
-    void UpdateArgs( double dt);
-
-    virtual void DrawFrame(cv::Mat frame);
-    virtual void Before();
-    virtual void After();
-
-
-
-
-
-
-
-
-
-
-
-//    /**
-//     * @brief Wczytaj konfiguracje
-//     */
-//    virtual void Load(char* fileName);
-
-//    /**
-//     * @brief Przygotuj zmienne
-//     */
-
-//    virtual void Prepare();
-//    /**
-//     * @brief Aktualizuj zmienne
-//     */
-
-//    virtual void Update(double d);
-
-
-
-//    /**
-//     * @brief pezed renderowaniem
-//     *
-//     * Wpisać do niej rzec które powinny się oliczyć zamin zacznie się renderować.
-//     * (pętla z tworzeniem klatek)
-//     */
-//    void BeforeRedner();
-
-//    /**
-//     * @brief Renderuj do pliku
-//     *
-//     * Renderuj do  pliku. Na początku przygotowuje parametry oraz wideo.
-//     * Potem wykonuje metodę BeforeRender(), którą można wirtualizować.
-//     * Następnie w pętli tworzy wszytskie klatki jakie mają być zamierzone.
-//     * Klatki tworzy metodą CreateFrame. Po stworzeniu każdej klatki jest ona zapisywana do pliku.
-//     *
-//     * Nie jest rozbita na mniejsze podfukncje, dlatego że czasami możesz wymyślić jakieś optymalizacje, którym będą podfunkcje przeszkadzać.
-//     * Niestety część kodu lepiej spokojnie przekopiować
-//     */
-//    virtual  void Render(double info);
 
 };
 

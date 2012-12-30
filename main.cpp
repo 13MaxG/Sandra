@@ -1,19 +1,25 @@
 #include <iostream>
 #include <fstream>
+#include <ctime>
 
 #include "system.h"
 #include "lissajous.h"
 #include "mandelbrot.h"
+#include "buddhabrot.h"
 #include "image.h"
+
+
 
 using namespace std;
 
 int main( int argc, char* argv[] )
 {
+    srand(time(0));
+
+
     cout<<"## SANDRA 1.0 ##"<<endl;
     cout<<"# Andrzej (Wem) Golonka, 2012"<<endl;
     cout<<"# http://WiecznyWem.tk"<<endl;
-
     Image img;
     img.SetFileName("Wyjście.png");
     img.SetCompression(9);
@@ -60,6 +66,10 @@ int main( int argc, char* argv[] )
     if(name == "#Mandelbrot")
     {
         system = new Mandelbrot();
+    } else
+    if(name == "#Buddhabrot")
+    {
+        system = new Buddhabrot();
     } else
     {
         ok  = false;

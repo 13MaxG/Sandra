@@ -2,6 +2,7 @@
 #define CONVERT_H
 
 #include <sstream>
+#include <ctime>
 
 template<typename T>
 std::string toString(T var)
@@ -20,6 +21,7 @@ T fromString(std::string str)
 
     return var;
 }
+
 
 
 
