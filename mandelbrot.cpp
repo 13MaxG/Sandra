@@ -40,7 +40,7 @@ void Mandelbrot::DrawFrame(cv::Mat frame)
 
     // !!!
     // To scale jest jakieś dziwne, szczególnie w przypadku oddalania w wideo
-    cwidth = 3.0 / scale;
+    cwidth = 4.0 / scale; // Pytasz dlaczego 4.0? GCC powiedział by że: "bo tak, inaczej nie kompiluje". Jest po to, żeby zmieścić rzutownie wszytskich jego kaprysów na klatke(glębkoie czarne dziury)
     cheight =  cwidth / frameRatio;
 
     // Punkty graniczne układu tworzące prostokąt
@@ -63,7 +63,6 @@ void Mandelbrot::DrawFrame(cv::Mat frame)
 
 
 
-
     Argument<double> color_r = c_r;
     Argument<double> color_g = c_g;
     Argument<double> color_b = c_b;
@@ -75,8 +74,6 @@ void Mandelbrot::DrawFrame(cv::Mat frame)
     // Czy dziura ma być czarna?
     bool black_hole = hole;
 
-    // Jedna z delt, zobacz do czego niżej
-    double dt =  1.0 / (double)maxIterations;
 
     // Lecimy dla każdeo punktu z klatki
     for(unsigned int y = 0; y < height; ++y)
@@ -112,13 +109,6 @@ void Mandelbrot::DrawFrame(cv::Mat frame)
             {
                 nnn = i; // :)
 
-                if(coloring == "linear")
-                {
-                    color_b.Update(dt);
-                    color_g.Update(dt);
-                    color_r.Update(dt);
-                }
-
 
 
                 // Jeden ze starych pomysłów, na wszelki przypadek go zostawię
@@ -146,16 +136,12 @@ void Mandelbrot::DrawFrame(cv::Mat frame)
                 {
                     inside = false;
 
+                    m = (double) i / (double) maxIterations;
+                    frame.data[frame.step*y + frame.channels()* x + 0] = color_b.GetAbsolute(m);
+                    frame.data[frame.step*y + frame.channels()* x +1] = color_g.GetAbsolute(m);
+                    frame.data[frame.step*y + frame.channels()* x + 2] = color_r.GetAbsolute(m);
 
 
-                    if(coloring == "linear")
-                    {
-
-                        frame.data[frame.step*y + frame.channels()* x + 0] = color_b.Get();
-                        frame.data[frame.step*y + frame.channels()* x +1] = color_g.Get();
-                        frame.data[frame.step*y + frame.channels()* x + 2] = color_r.Get();
-
-                    }
 
                     break;
                 }
@@ -165,7 +151,7 @@ void Mandelbrot::DrawFrame(cv::Mat frame)
 
             if(coloring == "logarithmic_sinus")
             {
-                m = 0.5+ 0.5* sin (  nnn -   (  log2 (  abs2 ) / log2( radius )      ))  ;
+                m = 0.5+ 0.5* sin (  nnn -   (  log2 (  sqrt(abs2) ) / log2( radius )      ))  ;
 
                 // Prawda że czytelnie wygląda, ale fajne jest
                 // Tylko jakiś rewolucjonista wymyślił sobie format  koloru BGR
