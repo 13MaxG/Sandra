@@ -5,7 +5,11 @@ System::System()
 {
     // Standardowo:
     diffrentNames = true;
+    process_info = 0.05;
 
+    process_acc = 0;
+    process_total = 0;
+    process_show = true;
 
     // Dodaję do repozytorium podstawowe parametry
     repository.Register("output_type", &filetype);
@@ -18,7 +22,7 @@ System::System()
     repository.Register("fps", &fps);
     repository.Register("time", &time);
     repository.Register("codec", &codec);
-
+    repository.Register("process_info", &process_info);
 }
 
 System::~System()
@@ -69,6 +73,7 @@ void System::Render()
     // Gotuj! Mamo, nie mówiłem o parówkach!
     PrepareArgs();
 
+    std::cout<<"Typ wyjścia: "<<filetype<<std::endl;
     // Jeżeli chcecie orbrazek
     if(filetype == "image")
     {
@@ -80,16 +85,27 @@ void System::Render()
         image.SetCompression(compression);
         image.SetFileName(filename);
 
+        std::cout<<"Kompresja: "<<compression<<std::endl;
+        std::cout<<"Plik wyjściowy: "<<filename<<std::endl;
+
+        std::cout<<std::endl;
+
         // Ale rosołek może być! :)
         image.Prepare();
 
         // Tylko go nie zapomnij przyprawić.
         UpdateArgs(image_time);
+
+        std::cout<< "Renderowanie: "<<std::endl;
+        Before();
         // A ja już go podam do stołu
         DrawFrame(image.Frame);
-
+        After();
+        std::cout<< "Ukończono renderowanie."<<std::endl;
+        std::cout<< "Zapisywanie do pliku: "<<std::endl;
         // Tylko czy go doniosę nie rozlewając ani kropelki?
         image.RenderImage();
+        std::cout<< "Ukończono zapisywanie do pliku: "<<std::endl;
 
     } else
     if(filetype == "video") // Chcemy wideo
@@ -105,10 +121,6 @@ void System::Render()
         // Przyrost procesu po jedej klatce
         delta = 1.0 / totalFrames;
 
-        // Informowanie o procesie renderowania
-        double up = 0.05; // Co ile procent(tfu, no wiesz o co chodzi)
-        double tmp = 0; // Jakaś pomocnicza zmienna
-        double total = 0; // Całkowity proces
 
         // W miarę czytelne
         video.SetCodec(codec);
@@ -118,25 +130,28 @@ void System::Render()
         video.SetFileName(filename);
         video.Prepare(); // Mhmmm
 
+        std::cout<<"Czas trwania: "<<time<<" sekund "<<std::endl;
+        std::cout<<"FPS: "<<fps<<std::endl;
+        std::cout<<"Ilość klatek: "<<totalFrames<<std::endl;
+        std::cout<<"Kodek: "<<codec<<std::endl;
+        std::cout<<"Plik wyjściowy: "<<filename<<std::endl;
+
+        std::cout<<std::endl;
+
         // Tak na wszelki wypadek
         UpdateArgs(0);
 
 
-
+        std::cout<< "Renderowanie: "<<std::endl;
+        Before();
         // Początkowe wyświetlenie procesu
-        std::cout.precision(2);
-        std::cout<<(total)*100<<"% <=> "<<totalFrames <<" <><> "<<0<<" / "<<totalFrames<<std::endl;
+        WriteProcessInfo();
 
         // Pętla przez wszytskie klatki
         for(currentFrame = 0; currentFrame < totalFrames; currentFrame++)
         {
 
-            // Wyświetlanie procesu
-            if(tmp >= up)
-            {
-                tmp = 0;
-                std::cout<<std::fixed<<(total)*100<<"% <=> "<<totalFrames - currentFrame<<" <><> "<<currentFrame<<" / "<<totalFrames<<std::endl;
-            }
+            WriteProcessInfo();
 
 
             // Opis SCENY
@@ -146,13 +161,11 @@ void System::Render()
             // wyrenderuj!
             video.RenderFrame();
 
-
-            tmp += delta;
-            total +=delta;
+            ReadProcessInfo(delta);
         }
         // proces, proces, proces
-        std::cout<<(total)*100<<"% <=> "<<totalFrames - currentFrame<<" <><> "<<currentFrame<<" / "<<totalFrames<<std::endl;
-
+        WriteProcessInfo();
+        After();
         std::cout<<"Ukończono renderowanie"<<std::endl;
 
 
@@ -191,4 +204,27 @@ void System::Before()
 void System::After()
 {
 
+}
+
+
+void System::ReadProcessInfo(double dt)
+{
+    process_acc += dt;
+    process_total += dt;
+    if(process_total > 1.0 ) process_total = 1.0;
+    if(process_acc >= process_info)
+    {
+        process_show = true;
+        process_acc = 0;
+
+    }
+}
+
+void System::WriteProcessInfo()
+{
+    if(process_show)
+    {
+        process_show = false;
+        std::cout<<process_total * 100.0 << " %"<<std::endl;
+    }
 }

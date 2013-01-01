@@ -103,6 +103,17 @@ protected:
     double time;
 
     /**
+     * @brief Co ile mam informować o postępie
+     *
+     *  0 - wcale
+     *  0.1 - co 10%
+     */
+    double process_info;
+    double process_acc; // zmienna pomocnicza
+    double process_total; // zmienna pomocznia
+    bool process_show; // zmienna pomocnicza
+
+    /**
      * @brief Kodek wideo
      *
      * "DVIX" - z kompresją
@@ -130,6 +141,16 @@ protected:
      * @param dt Przyrost czasu
      */
     void UpdateArgs( double dt);
+
+    /**
+     * @brief Zbierz informacje dotyczące procesu
+     */
+    void ReadProcessInfo(double dt);
+
+    /**
+     * @brief Poinformuj o procesie
+     */
+    void WriteProcessInfo();
 
     /**
      * @brief Renderuj pojedynczą klatkę

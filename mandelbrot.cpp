@@ -17,7 +17,7 @@ Mandelbrot::Mandelbrot() : System()
 
 void Mandelbrot::Before()
 {
-
+    d2 = 1.0 / (double)(width * height);
 }
 
 void Mandelbrot::After()
@@ -40,7 +40,7 @@ void Mandelbrot::DrawFrame(cv::Mat frame)
 
     // !!!
     // To scale jest jakieś dziwne, szczególnie w przypadku oddalania w wideo
-    cwidth = 4.0 / scale; // Pytasz dlaczego 4.0? GCC powiedział by że: "bo tak, inaczej nie kompiluje". Jest po to, żeby zmieścić rzutownie wszytskich jego kaprysów na klatke(glębkoie czarne dziury)
+    cwidth = 4.0 / (scale * scale); // Pytasz dlaczego 4.0? GCC powiedział by że: "bo tak, inaczej nie kompiluje". Jest po to, żeby zmieścić rzutownie wszytskich jego kaprysów na klatke(glębkoie czarne dziury)
     cheight =  cwidth / frameRatio;
 
     // Punkty graniczne układu tworzące prostokąt
@@ -74,7 +74,8 @@ void Mandelbrot::DrawFrame(cv::Mat frame)
     // Czy dziura ma być czarna?
     bool black_hole = hole;
 
-
+    if(filetype == "image")
+        WriteProcessInfo();
     // Lecimy dla każdeo punktu z klatki
     for(unsigned int y = 0; y < height; ++y)
     {
@@ -167,142 +168,17 @@ void Mandelbrot::DrawFrame(cv::Mat frame)
                 frame.data[frame.step*y + frame.channels()* x +1] = 0;
                 frame.data[frame.step*y + frame.channels()* x + 2] = 0;
             }
+
+            if(filetype == "image")
+            {
+                ReadProcessInfo(d2);
+                WriteProcessInfo();
+            }
+
+
         }
     }
-   // std::cout<<"XXX: "<<xxx<<std::endl;
+
 
 
 }
-
-
-//void Mandelbrot::Render(double info)
-//{
-//    // Do wyświetlania procesu
-//    double up = info;
-//    double tmp = 0;
-//    double total = 0;
-
-//    BeforeRedner();
-
-//    std::cout.precision(2);
-
-//    std::cout<<(total)*100<<"% <=> "<<totalFrames <<" <><> "<<0<<" / "<<totalFrames<<std::endl;
-
-//    // Pętla przez wszytskie klatki
-//    for(currentFrames = 0; currentFrames < totalFrames; currentFrames++)
-//    {
-//        // Wyświetlanie procesu
-
-//        if(tmp >= up)
-//        {
-//            tmp = 0;
-//            std::cout<<std::fixed<<(total)*100<<"% <=> "<<totalFrames - currentFrames<<" <><> "<<currentFrames<<" / "<<totalFrames<<std::endl;
-//        }
-
-
-//        // OpiS SCENY
-
-//        Update(delta); // aktualizuj parametry
-
-
-//        double frameHeight = video.GetResolutionHeight();
-//        double frameWidth = video.GetResolutionWidth();
-
-//        double pointX = 0.0, pointY=0.0; //
-//        double zoom = 1.0;
-
-//        double width; // Układ współrzednych, cześć rzeczywista
-//        double height; // -..- część urojona
-
-
-
-////        if(frameWidth > frameHeight)
-////        {
-////            height = 2.0  / zoom;
-////            width = (frameWidth / frameHeight) * height;
-////        } else
-////        {
-////            width = 3.5  / zoom;
-////            height = (frameHeight / frameWidth) * width;
-////        }
-
-
-
-
-//        /*
-
-//        double MinRe = -2.0;
-//        double MaxRe = 1.0;
-//        double MinIm = -1.2;
-//        double MaxIm = MinIm+(MaxRe-MinRe)*ImageHeight/ImageWidth;
-//        double Re_factor = (MaxRe-MinRe)/(ImageWidth-1);
-//        double Im_factor = (MaxIm-MinIm)/(ImageHeight-1);
-
-
-//        unsigned MaxIterations = iterations.Get();
-
-//        for(unsigned y=0; y<ImageHeight; ++y)
-//        {
-//            double c_im = MaxIm - y*Im_factor;
-//            for(unsigned x=0; x<ImageWidth; ++x)
-//            {
-//                double c_re = MinRe + x*Re_factor;
-
-//                double Z_re = c_re, Z_im = c_im;
-//                bool isInside = true;
-//                double per = 0;
-//                for(unsigned n=0; n<MaxIterations; ++n)
-//                {
-//                    double Z_re2 = Z_re*Z_re, Z_im2 = Z_im*Z_im;
-//                    if(Z_re2 + Z_im2 > 4)
-//                    {
-//                        isInside = false;
-
-//                        unsigned  char r= 0 , g = 0, b = 0;
-//                         per =((double(n))/ ((double)MaxIterations));
-//                                            if(per < 0.5)
-//                                            {
-//                                                r = ((per  / 0.5) * 255.0) ;
-//                                                g = 0;
-//                                                b = 0;
-//                                            } else
-//                                            {
-//                                                r = 255;
-//                                                g = (((per-0.5)/ 0.5) * 255.0) ;;
-//                                               b = (((per-0.5)/ 0.5) * 255.0) ;;
-//                                            }
-//                                          //  data[A.step*i + A.channels()*j + 0]
-//                                            video.Frame.data[video.Frame.step*y + video.Frame.channels()* x + 0] = b;
-//                                            video.Frame.data[video.Frame.step*y + video.Frame.channels()* x +1] = g;
-//                                            video.Frame.data[video.Frame.step*y + video.Frame.channels()* x + 2] = r;
-//                                            // cv::rectangle( video.Frame, cv::Point(x, y), cv::Point(x+1, y+1), cv::Scalar(b, g, r), 0,);
-
-//                        break;
-//                    }
-//                    Z_im = 2*Z_re*Z_im + c_im;
-//                    Z_re = Z_re2 - Z_im2 + c_re;
-//                }
-//                if(isInside)
-//                {
-//                    video.Frame.data[video.Frame.step*y + video.Frame.channels()* x + 0] = 0;
-//                    video.Frame.data[video.Frame.step*y + video.Frame.channels()* x +1] = 0;
-//                    video.Frame.data[video.Frame.step*y + video.Frame.channels()* x + 2] = 0;
-//                    //cv::rectangle( video.Frame, cv::Point(x, y), cv::Point(x+1, y+1), cv::Scalar(255, 255, 0), 1);
-//                    //cv::cvSet2D(video.Frame, x, y, cv::Scalar(255, 255, 255));
-//                }
-//            }
-//        }
-//        */
-
-
-//        // wyrenderuj!
-//        video.RenderFrame();
-
-//        tmp += delta;
-//        total +=delta;
-//    }
-//    std::cout<<(total)*100<<"% <=> "<<totalFrames - currentFrames<<" <><> "<<currentFrames<<" / "<<totalFrames<<std::endl;
-
-//    std::cout<<"Ukończono renderowanie"<<std::endl;
-
-//}

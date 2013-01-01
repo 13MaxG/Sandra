@@ -6,6 +6,7 @@
 class Mandelbrot : public System
 {
 private:
+
     /**
      * @brief Ilość iteracji
      */
@@ -54,6 +55,8 @@ private:
      */
     Argument<unsigned  int > max_iter ;
 
+    double d2; // pomocznicza, do procesu dla image
+
     /**
      * @brief promień
      *
@@ -65,6 +68,8 @@ private:
      * @brief Czy życzysz sobie czarną dziurę czy może oświetloną?
      */
     bool hole;
+
+
 
 public:
     Mandelbrot();
