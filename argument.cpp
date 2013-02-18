@@ -15,6 +15,7 @@ Argument<T>::Argument()
 template<typename T>
 void Argument<T>::Prepare()
 {
+    IsEnd = false;
     current.Time = 0; // Dla bezpieczeństwa
     data.sort(); // Sortuj listę
     current = *data.begin(); // Aktualny element to pierwszy element
@@ -43,9 +44,11 @@ void Argument<T>::Update(double up)
         // to element poprzedni i następny to ostatni element
         if((next) == data.end())
         {
+            IsEnd = true;
             next--;
             prev--;
             break;//broke; broken :)
+
         }
     }
 
@@ -231,6 +234,27 @@ template<typename T>
 double Argument<T>::GetTime()
 {
     return current.Time;
+}
+
+template<typename T>
+double Argument<T>::GetNextTime()
+{
+    return (*next).Time;
+}
+
+template<typename T>
+bool Argument<T>::JumpToNext()
+{
+    current.Time = (*next).Time;
+    //Update(0.0);
+
+   // typename std::list < Key<T> >::iterator inext = next;
+   // typename std::list < Key<T> >::iterator iprev = prev;
+    //inext++;
+   // iprev++;
+    ////if(GetTime() >= 1.0)
+    //    return true;
+    return false;
 }
 
 #endif // ARGUMENT_CPP

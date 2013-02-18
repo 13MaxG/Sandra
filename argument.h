@@ -95,6 +95,27 @@ public:
      */
     double GetTime();
 
+
+    /**
+     * @brief Zwraca czas następnej wartości kluczowej
+     * Normalnie nie będzie potrzebne. Dozwolone do użytku tylko w krytycznych stuacjach.
+     *
+     * @return  czas następnego
+     */
+    double GetNextTime();
+
+    /**
+     * @brief Skacze do następnego elementu
+     *
+     * Normalnie nie będzie potrzebne. Dozwolone do użytku tylko w krytycznych stuacjach.
+     *
+     * @return czy koniec
+     */
+    bool JumpToNext();
+
+
+    /// pomocnik, czy dostarłem na koniec
+    bool IsEnd;
 };
 
 #include "argument.cpp"

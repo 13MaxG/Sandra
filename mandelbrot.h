@@ -29,11 +29,23 @@ private:
      * @brief Współrzędna Y środka widoku
      */
     Argument<double> py;
-
     /**
-     * @brief Skala obrazu
+     * @brief Scale each frame by - skaluj każdą kolejną klatkę o ... względem poprzedniej
      */
-    Argument<double> s;
+    Argument<double> sefby;
+
+    double wid;
+    double cwidth;
+   // /**
+    // * @brief delta skali na sekundę
+    // */
+    //Argument<double> sps;
+
+    // globalna skala dla mandelbrota
+    // zmienna
+    // double scale;
+
+
 
     /**
      * @brief Czerwona paleta

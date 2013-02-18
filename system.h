@@ -26,6 +26,7 @@
 class System
 {
 protected:
+    std::string now;
     /**
      * @brief Operator na pliku wideo
      */

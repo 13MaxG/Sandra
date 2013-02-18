@@ -11,6 +11,8 @@ System::System()
     process_total = 0;
     process_show = true;
 
+
+
     // Dodaję do repozytorium podstawowe parametry
     repository.Register("output_type", &filetype);
     repository.Register("output_file", &filename);
@@ -61,14 +63,47 @@ void System::Load(char *fileName)
 
     }
 
+    file.close();
+    file.open(fileName, std::ios::in);
+
+
+    time_t rawtime;
+    struct tm * timeinfo;
+
+    std::time ( &rawtime );
+    timeinfo = localtime ( &rawtime );
+    now =  toString( std::time (NULL) );
+
+
+    std::string tmp = filename;
+    tmp += "_config_"  + now + ".txt";
+    std::fstream configCopy;
+    configCopy.open(tmp.c_str(), std::ios::out);
+
+
+
+
+    while(true)
+    {
+        std::getline(file, line); // wcztaj jedną linijkę
+        configCopy << line<<std::endl;
+        if(file.eof()) break;
+
+    }
+
+    file.close();
+    configCopy.close();
+
 }
 
 
 void System::Render()
 {
+
+
     // Dodaj coś do nazwy pliku
     if(diffrentNames)
-        filename.append("_"+toString<int>(std::time(0)));
+        filename.append("_"+now);
 
     // Gotuj! Mamo, nie mówiłem o parówkach!
     PrepareArgs();
@@ -123,6 +158,7 @@ void System::Render()
 
 
         // W miarę czytelne
+
         video.SetCodec(codec);
         video.SetResolutionWidth(width);
         video.SetResolutionHeight(height);

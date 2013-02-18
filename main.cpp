@@ -7,7 +7,7 @@
 #include "mandelbrot.h"
 #include "buddhabrot.h"
 #include "image.h"
-
+#include "spiral.h"
 
 
 using namespace std;
@@ -52,6 +52,11 @@ int main( int argc, char* argv[] )
     {
         system = new Buddhabrot();
     } else
+    if(name == "#Spiral")
+    {
+        system = new Spiral();
+    }
+    else
     {
         ok  = false;
         cout<<"Nieznana animacja"<<endl;
