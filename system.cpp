@@ -137,10 +137,10 @@ void System::Render()
         DrawFrame(image.Frame);
         After();
         std::cout<< "Ukończono renderowanie!"<<std::endl;
-        std::cout<< "Zapisywanie do pliku: "<<std::endl;
+        std::cout<< "Zapisywanie. "<<std::endl;
         // Tylko czy go doniosę nie rozlewając ani kropelki?
         image.RenderImage();
-        std::cout<< "Ukończono zapisywanie do pliku: "<<std::endl;
+        std::cout<< "Ukończono."<<std::endl;
 
     } else
     if(filetype == "video") // Chcemy wideo
