@@ -17,7 +17,8 @@ HEADERS += \
     operatoritem.h \
     buddhabrot.h \
     random.h \
-    spiral.h
+    spiral.h \
+    attractor.h
 
 SOURCES += main.cpp \
     system.cpp \
@@ -32,7 +33,8 @@ SOURCES += main.cpp \
     operatoritem.cpp \
     buddhabrot.cpp \
     random.cpp \
-    spiral.cpp
+    spiral.cpp \
+    attractor.cpp
 
 CONFIG += link_pkgconfig
 PKGCONFIG += opencv

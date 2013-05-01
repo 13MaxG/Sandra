@@ -60,8 +60,9 @@ protected:
     /**
      * @brief Typ pliku wyjściowego (avi lub png)
      */
+   public:/*POPRAWKA*/
     std::string filetype;
-
+protected:
     /**
      * @brief Nazwa pliku wyjściowego (bez rozszerzenia)
      */

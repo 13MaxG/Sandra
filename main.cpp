@@ -8,7 +8,7 @@
 #include "buddhabrot.h"
 #include "image.h"
 #include "spiral.h"
-
+#include "attractor.h"
 
 using namespace std;
 
@@ -28,7 +28,18 @@ int main( int argc, char* argv[] )
 
     char* config = "config.txt";
 
+    /*POPRAWKA*/
+    string opt = "X";
+
     if(argc >=2) config = argv[1];
+    if(argc >=3)
+    {
+        cout<<argv[2] <<endl;
+        /*POPRAWKA*/
+        if(argv[2][0] == 'v') opt = "video";
+        if(argv[2][0] == 'i') opt = "image";
+    }
+    cout<<"OPT: "<<opt<<endl;
 
     cout<<"Plik konfiguracyjny: "<<config<<endl;
     fstream file;
@@ -37,6 +48,9 @@ int main( int argc, char* argv[] )
     file.open(config, ios::in);
     file>>name;
     file.close();
+
+
+
 
     bool ok = true;
 
@@ -55,6 +69,10 @@ int main( int argc, char* argv[] )
     if(name == "#Spiral")
     {
         system = new Spiral();
+    } else
+    if(name == "#Attractor")
+    {
+        system = new Attractor();
     }
     else
     {
@@ -66,6 +84,10 @@ int main( int argc, char* argv[] )
     {
         cout<<"Animacja: "<<name<<endl;
         system->Load(config);
+
+        /*POPRAWKA*/
+        if(opt != "X") system->filetype=opt;
+
         system->Render();
     }
 

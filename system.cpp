@@ -136,7 +136,7 @@ void System::Render()
         // A ja już go podam do stołu
         DrawFrame(image.Frame);
         After();
-        std::cout<< "Ukończono renderowanie."<<std::endl;
+        std::cout<< "Ukończono renderowanie!"<<std::endl;
         std::cout<< "Zapisywanie do pliku: "<<std::endl;
         // Tylko czy go doniosę nie rozlewając ani kropelki?
         image.RenderImage();
