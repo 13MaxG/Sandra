@@ -34,6 +34,8 @@ void Attractor::After()
 
 }
 
+//double trunc(double d){ return (d>0) ? floor(d) : ceil(d) ; }
+
 void Attractor::DrawFrame(cv::Mat frame)
 {
 
@@ -84,16 +86,90 @@ void Attractor::DrawFrame(cv::Mat frame)
         x = a * sin( b * y0 ) + c * cos( d * x0 );
         y = e * sin( f * x0 ) + g * cos( h * y0 );
 
-        int imgx, imgy;
 
-        imgx = round((x+2)/4.0 * width);
-        imgy = round((y+2)/4.0 * height);
+
+
+
+
+        // INTERPOLACJA DWULINIOWA
+
+
+        int imgx, imgy; // piksel na obrazie
+        double dx, dy; // długości piksela na modelu
+        double minx, miny; //minimalne wymiary modelu
+        double maxx, maxy; // maksymalne wymiary modelu
+        double errx, erry; // błędy dla x i y
+                             //gdy a = 1 i c = 1, a * min(sin()) + c* min(sin())
+        // dx = (max - min) / width
+        // dx = ( ( a + c ) - ( -a + -c) ) / width
+        // dy = ( ( e + g ) - ( -e + -g) ) / height
+
+        minx = -a-c; maxx = a+c;
+        miny = -e-g; maxy = e+g;
+
+        dx = ( maxx - minx )/width;
+        dy = ( maxy - miny )/height;
+
+        imgx = trunc( (x - minx) / dx );
+        imgy = trunc( (y - miny) / dy );
+
+        errx = ( ( x - minx ) / dx ) - imgx;
+        erry = ( ( y - miny ) / dy ) - imgy;
+
+        if( imgx>=0 && imgx <width && imgy>=0 && imgy < height)
+        {
+            licznik[imgx][imgy] += (1.0 - errx) * (1.0 - erry);
+            if(licznik[imgx][imgy] > maks)
+                maks = licznik[imgx][imgy];
+        }
+
+        if( imgx+1>=0 && imgx+1 <width && imgy>=0 && imgy < height)
+        {
+            licznik[imgx+1][imgy] += (1.0 - errx) * (erry);
+            if(licznik[imgx+1][imgy] > maks)
+                maks = licznik[imgx+1][imgy];
+        }
+
+        if( imgx>=0 && imgx <width && imgy+1>=0 && imgy+1 < height)
+        {
+            licznik[imgx][imgy+1] += (errx) * (1.0-erry);
+            if(licznik[imgx][imgy+1] > maks)
+                maks = licznik[imgx][imgy+1];
+        }
+
+        if( imgx+1>=0 && imgx+1 <width && imgy+1>=0 && imgy+1 < height)
+        {
+            licznik[imgx+1][imgy+1] += (errx) * (erry);
+            if(licznik[imgx+1][imgy+1] > maks)
+                maks = licznik[imgx+1][imgy+1];
+        }
+
+
+
+
+
+
+
+        // BEZ INTERPOLACJI DWULINIOWEJ, Z ZAOKRĄGLENIEM
+            //!!!!!!!!!!!!!!!
+                // Pytanie: czy te ograniczniki będą działały
+                // wystarczająco fajnie jeżeli ktoś poda parametry
+                // skaldujące dla sinusów i cosinusów
+        /*
+        int imgx, imgy;
+        imgx = round((x+(a+c))/(2 * (a+c)) * width);
+        imgy = round((y+(e+g))/(2 * (e+g)) * height);
 
         if(imgx <width && imgx>=0 && imgy < height && imgy>=0)
         {
             licznik[imgx][imgy]+=1;
             if(licznik[imgx][imgy] > maks) maks = licznik[imgx][imgy];
         }
+        */
+
+
+
+
         x0 = x;
         y0 = y;
 
@@ -117,6 +193,11 @@ void Attractor::DrawFrame(cv::Mat frame)
 
 
         }
+    }
+
+    for(int x = 0 ; x < width; x++)
+    {
+        delete licznik[x];
     }
 
 
