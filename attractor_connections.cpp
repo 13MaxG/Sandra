@@ -1,10 +1,15 @@
-#include "attractor.h"
+#include "attractor_connections.h"
+
+
 #define _USE_MATH_DEFINES
 #include <cmath>
 
 
-Attractor::Attractor()
+AttractorConnections::AttractorConnections()
 {
+
+
+
     //automatic_clear_frame = false;
     precise_info = true;
 
@@ -24,41 +29,56 @@ Attractor::Attractor()
     repository.Register("g", &A_g);
     repository.Register("h", &A_h);
 
-}
-
-void Attractor::Before()
-{
-
-
-}
-
-void Attractor::After()
-{
-
-}
-
-//double trunc(double d){ return (d>0) ? floor(d) : ceil(d) ; }
-
-void Attractor::DrawFrame(cv::Mat frame)
-{
-
-    double x0, y0, m0, x, y, z, z0, x00, y00;
-
     x00 = 1;
     y00= 1;
     x0 = 1;
     y0 = 1;
     z0 = 1;
+
+    licznik = new double*[width];
+       for(int x = 0 ; x < width; x++)
+       {
+           licznik[x] = new double[height];
+           for(int y = 0; y < height; y++)
+           {
+               licznik[x][y] = 0;
+           }
+       }
+    maks = 0;
+
+}
+
+void AttractorConnections::Before()
+{
+
+
+}
+
+void AttractorConnections::After()
+{
+    for(int x = 0 ; x < width; x++)
+    {
+        delete licznik[x];
+    }
+}
+
+//double trunc(double d){ return (d>0) ? floor(d) : ceil(d) ; }
+
+void AttractorConnections::DrawFrame(cv::Mat frame)
+{
+
+
+    video.automatic_clear_frame = false;
     double a, b, c, d, e, f, g, h;
 
-    a = A_a.Get();
-    b = A_b.Get();
-    c = A_c.Get();
-    d = A_d.Get();
-    e = A_e.Get();
-    f = A_f.Get();
-    g = A_g.Get();
-    h = A_h.Get();
+    a = A_a;
+    b = A_b;
+    c = A_c;
+    d = A_d;
+    e = A_e;
+    f = A_f;
+    g = A_g;
+    h = A_h;
 
 
     Argument<double> color_r = c_r;
@@ -70,25 +90,14 @@ void Attractor::DrawFrame(cv::Mat frame)
     color_b.Prepare();
 
 
-    double **licznik = new double*[width];
-    for(int x = 0 ; x < width; x++)
-    {
-        licznik[x] = new double[height];
-        for(int y = 0; y < height; y++)
-        {
-            licznik[x][y] = 0;
-        }
-    }
-    double maks = 0;
+
 
     WriteProcessInfo();
 
-    double d2 = 1.0 / (double) iterations.Get() ;
 
     double m2 = 0;//color
 
-    for(unsigned int iter = 0; iter < iterations.Get(); iter++)
-    {
+
 
        // x = a * sin( b * (y0 + x00)  ) + c * cos( d * (x0 + y00) );
         //y = e * sin( f * (x0 + y00) ) + g * cos( h * (y0 + x00) );
@@ -162,6 +171,43 @@ void Attractor::DrawFrame(cv::Mat frame)
 
 
 
+        if( imgx>=0 && imgx <width && imgy>=0 && imgy < height)
+        {
+            double m =  (licznik[imgx][imgy]) / (maks);
+
+            frame.data[frame.step*imgy + frame.channels()* imgx + 0] = color_b.GetAbsolute(m);
+            frame.data[frame.step*imgy + frame.channels()* imgx + 1] = color_g.GetAbsolute(m);
+            frame.data[frame.step*imgy + frame.channels()* imgx + 2] = color_r.GetAbsolute(m);
+        }
+        if( imgx+1>=0 && imgx+1 <width && imgy>=0 && imgy < height)
+        {
+            double m =  (licznik[(imgx+1)][imgy]) / (maks);
+
+            frame.data[frame.step*imgy + frame.channels()* (imgx+1) + 0] = color_b.GetAbsolute(m);
+            frame.data[frame.step*imgy + frame.channels()* (imgx+1) + 1] = color_g.GetAbsolute(m);
+            frame.data[frame.step*imgy + frame.channels()* (imgx+1) + 2] = color_r.GetAbsolute(m);
+        }
+        if( imgx>=0 && imgx <width && imgy+1>=0 && imgy+1 < height)
+        {
+            double m =  (licznik[imgx][(imgy+1)]) / (maks);
+
+            frame.data[frame.step*(imgy+1) + frame.channels()* imgx + 0] = color_b.GetAbsolute(m);
+            frame.data[frame.step*(imgy+1) + frame.channels()* imgx + 1] = color_g.GetAbsolute(m);
+            frame.data[frame.step*(imgy+1) + frame.channels()* imgx + 2] = color_r.GetAbsolute(m);
+        }
+        if( imgx+1>=0 && imgx+1 <width && imgy+1>=0 && imgy+1 < height)
+        {
+            double m =  (licznik[(imgx+1)][(imgy+1)]) / (maks);
+
+            frame.data[frame.step*(imgy+1) + frame.channels()* (imgx+1) + 0] = color_b.GetAbsolute(m);
+            frame.data[frame.step*(imgy+1) + frame.channels()* (imgx+1) + 1] = color_g.GetAbsolute(m);
+            frame.data[frame.step*(imgy+1) + frame.channels()* (imgx+1) + 2] = color_r.GetAbsolute(m);
+        }
+
+
+
+
+
 
         // BEZ INTERPOLACJI DWULINIOWEJ, Z ZAOKRĄGLENIEM
             //!!!!!!!!!!!!!!!
@@ -194,38 +240,13 @@ void Attractor::DrawFrame(cv::Mat frame)
         x0 = x;
         y0 = y;
         z0 = z;
-        if(filetype == "video" && precise_info == true)
-        {
-            ReadProcessInfo((double)delta*(double)d2);
-            //std::cout<<(double)delta/(double)iter<<", ### "<<process_total<<std::endl;
-            WriteProcessInfo();
-        }
-        if(filetype == "image")
-        {
-            ReadProcessInfo(d2);
-            WriteProcessInfo();
-        }
-    }
 
 
-    for(int y = 0; y < height; ++y)
-    {
-        for(int x = 0; x < width; ++x)
-        {
-            double m =  (licznik[x][y]) / (maks);
-
-            frame.data[frame.step*y + frame.channels()* x + 0] = color_b.GetAbsolute(m);
-            frame.data[frame.step*y + frame.channels()* x + 1] = color_g.GetAbsolute(m);
-            frame.data[frame.step*y + frame.channels()* x + 2] = color_r.GetAbsolute(m);
 
 
-        }
-    }
 
-    for(int x = 0 ; x < width; x++)
-    {
-        delete licznik[x];
-    }
+
+
 
 
 }

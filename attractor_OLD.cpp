@@ -5,9 +5,6 @@
 
 Attractor::Attractor()
 {
-    //automatic_clear_frame = false;
-    precise_info = true;
-
     repository.Register("iterations", &iterations);
 
     repository.Register("color_r", &c_r);
@@ -42,13 +39,11 @@ void Attractor::After()
 void Attractor::DrawFrame(cv::Mat frame)
 {
 
-    double x0, y0, m0, x, y, z, z0, x00, y00;
+    double x0, y0, x, y;
 
-    x00 = 1;
-    y00= 1;
     x0 = 1;
     y0 = 1;
-    z0 = 1;
+
     double a, b, c, d, e, f, g, h;
 
     a = A_a.Get();
@@ -85,26 +80,18 @@ void Attractor::DrawFrame(cv::Mat frame)
 
     double d2 = 1.0 / (double) iterations.Get() ;
 
-    double m2 = 0;//color
-
     for(unsigned int iter = 0; iter < iterations.Get(); iter++)
     {
 
-       // x = a * sin( b * (y0 + x00)  ) + c * cos( d * (x0 + y00) );
-        //y = e * sin( f * (x0 + y00) ) + g * cos( h * (y0 + x00) );
-
-        x = a * sin( b * (y0 )  ) + c * cos( d * (x0 ) );
-        y = e * sin( f * (x0 ) ) + g * cos( h * (y0) );
-
-        z = sin(x0) + cos(z0);
-
-
-        // m = (z  - min) /(max+min);   pamiętaj że (-1) - (-1) = 2
-        m2 = (z + 2.0) / 4.0;
+        x = a * sin( b * y0 ) + c * cos( d * x0 );
+        y = e * sin( f * x0 ) + g * cos( h * y0 );
 
 
 
-//        // INTERPOLACJA DWULINIOWA
+
+
+
+        // INTERPOLACJA DWULINIOWA
 
 
         int imgx, imgy; // piksel na obrazie
@@ -131,28 +118,28 @@ void Attractor::DrawFrame(cv::Mat frame)
 
         if( imgx>=0 && imgx <width && imgy>=0 && imgy < height)
         {
-            licznik[imgx][imgy] += (1.0 - errx) * (1.0 - erry) * m2;
+            licznik[imgx][imgy] += (1.0 - errx) * (1.0 - erry);
             if(licznik[imgx][imgy] > maks)
                 maks = licznik[imgx][imgy];
         }
 
         if( imgx+1>=0 && imgx+1 <width && imgy>=0 && imgy < height)
         {
-            licznik[imgx+1][imgy] += (1.0 - errx) * (erry) * m2;
+            licznik[imgx+1][imgy] += (1.0 - errx) * (erry);
             if(licznik[imgx+1][imgy] > maks)
                 maks = licznik[imgx+1][imgy];
         }
 
         if( imgx>=0 && imgx <width && imgy+1>=0 && imgy+1 < height)
         {
-            licznik[imgx][imgy+1] += (errx) * (1.0-erry) * m2;
+            licznik[imgx][imgy+1] += (errx) * (1.0-erry);
             if(licznik[imgx][imgy+1] > maks)
                 maks = licznik[imgx][imgy+1];
         }
 
         if( imgx+1>=0 && imgx+1 <width && imgy+1>=0 && imgy+1 < height)
         {
-            licznik[imgx+1][imgy+1] += (errx) * (erry) * m2;
+            licznik[imgx+1][imgy+1] += (errx) * (erry);
             if(licznik[imgx+1][imgy+1] > maks)
                 maks = licznik[imgx+1][imgy+1];
         }
@@ -168,11 +155,11 @@ void Attractor::DrawFrame(cv::Mat frame)
                 // Pytanie: czy te ograniczniki będą działały
                 // wystarczająco fajnie jeżeli ktoś poda parametry
                 // skaldujące dla sinusów i cosinusów
-
-        //int imgx, imgy;
-       // imgx = round((x+(a+c))/(2 * (a+c)) * width);
-       // imgy = round((y+(e+g))/(2 * (e+g)) * height);
         /*
+        int imgx, imgy;
+        imgx = round((x+(a+c))/(2 * (a+c)) * width);
+        imgy = round((y+(e+g))/(2 * (e+g)) * height);
+
         if(imgx <width && imgx>=0 && imgy < height && imgy>=0)
         {
             licznik[imgx][imgy]+=1;
@@ -181,25 +168,11 @@ void Attractor::DrawFrame(cv::Mat frame)
         */
 
 
-       // if(imgx>=0 && imgx < width && imgy >= 0 && imgy < height)
-        //{
-       //     frame.data[frame.step*imgy + frame.channels()* imgx + 0] = color_b.GetAbsolute(m);
-       //     frame.data[frame.step*imgy + frame.channels()* imgx + 1] = color_g.GetAbsolute(m);
-       //     frame.data[frame.step*imgy + frame.channels()* imgx + 2] = color_r.GetAbsolute(m);
-       // }
 
-        x00 = x0;
-        y00 = y0;
 
         x0 = x;
         y0 = y;
-        z0 = z;
-        if(filetype == "video" && precise_info == true)
-        {
-            ReadProcessInfo((double)delta*(double)d2);
-            //std::cout<<(double)delta/(double)iter<<", ### "<<process_total<<std::endl;
-            WriteProcessInfo();
-        }
+
         if(filetype == "image")
         {
             ReadProcessInfo(d2);

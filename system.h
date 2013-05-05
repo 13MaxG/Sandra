@@ -62,6 +62,7 @@ protected:
      */
    public:/*POPRAWKA*/
     std::string filetype;
+    bool precise_info;
 protected:
     /**
      * @brief Nazwa pliku wyjściowego (bez rozszerzenia)

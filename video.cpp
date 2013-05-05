@@ -2,6 +2,7 @@
 
 Video::Video()
 {
+    automatic_clear_frame = true;
     Restart();
     _writer = cv::VideoWriter();
 }
@@ -39,7 +40,7 @@ void Video::RenderFrame()
 {
     // I za to podoba mi się I/O z OpenCV
     _writer << Frame;
-    ClearFrame();
+    if(automatic_clear_frame) ClearFrame();
 }
 
 bool Video::IsLocked()

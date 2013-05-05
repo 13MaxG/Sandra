@@ -50,7 +50,7 @@ private:
     cv::VideoWriter _writer;
 
 public:
-
+    bool automatic_clear_frame;
 /* OpenCV */
     /**
     * @brief Klatka po której należy rysować

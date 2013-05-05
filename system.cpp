@@ -6,7 +6,7 @@ System::System()
     // Standardowo:
     diffrentNames = true;
     process_info = 0.05;
-
+    precise_info = false;
     process_acc = 0;
     process_total = 0;
     process_show = true;
@@ -197,7 +197,7 @@ void System::Render()
             // wyrenderuj!
             video.RenderFrame();
 
-            ReadProcessInfo(delta);
+            if(precise_info == false) ReadProcessInfo(delta);
         }
         // proces, proces, proces
         WriteProcessInfo();
