@@ -19,7 +19,8 @@ HEADERS += \
     random.h \
     spiral.h \
     attractor.h \
-    attractor_connections.h
+    attractor_connections.h \
+    ikeda.h
 
 SOURCES += main.cpp \
     system.cpp \
@@ -36,7 +37,8 @@ SOURCES += main.cpp \
     random.cpp \
     spiral.cpp \
     attractor.cpp \
-    attractor_connections.cpp
+    attractor_connections.cpp \
+    ikeda.cpp
 
 CONFIG += link_pkgconfig
 PKGCONFIG += opencv

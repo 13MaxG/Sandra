@@ -7,7 +7,8 @@ class AttractorConnections : public System
 {
 private:
 
-    unsigned  int iterations;
+
+    Argument<unsigned  int> iterations;
 
 
     Argument<double> c_r ;
@@ -15,20 +16,21 @@ private:
     Argument<double> c_b ;
 
 
-    double A_a;
-    double A_b;
-    double A_c;
-    double A_d;
+    Argument<double> A_a;
+    Argument<double> A_b;
+    Argument<double> A_c;
+    Argument<double> A_d;
 
-    double A_e;
-    double A_f;
-    double A_g;
-    double A_h;
+    Argument<double> A_e;
+    Argument<double> A_f;
+    Argument<double> A_g;
+    Argument<double> A_h;
 
     double x0, y0, m0, x, y, z, z0, x00, y00;
 
     double **licznik;
     double maks;
+     double a, b, c, d, e, f, g, h;
 
 public:
     AttractorConnections();

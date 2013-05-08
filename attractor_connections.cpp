@@ -10,7 +10,7 @@ AttractorConnections::AttractorConnections()
 
 
 
-    //automatic_clear_frame = false;
+    video.automatic_clear_frame = false;
     precise_info = true;
 
     repository.Register("iterations", &iterations);
@@ -35,6 +35,13 @@ AttractorConnections::AttractorConnections()
     y0 = 1;
     z0 = 1;
 
+
+
+}
+
+void AttractorConnections::Before()
+{
+
     licznik = new double*[width];
        for(int x = 0 ; x < width; x++)
        {
@@ -46,20 +53,23 @@ AttractorConnections::AttractorConnections()
        }
     maks = 0;
 
-}
 
-void AttractorConnections::Before()
-{
+    a = A_a.GetAbsolute(image_time);
+    b = A_b.GetAbsolute(image_time);
+    c = A_c.GetAbsolute(image_time);
+    d = A_d.GetAbsolute(image_time);
+    e = A_e.GetAbsolute(image_time);
+    f = A_f.GetAbsolute(image_time);
+    g = A_g.GetAbsolute(image_time);
+    h = A_h.GetAbsolute(image_time);
+
 
 
 }
 
 void AttractorConnections::After()
 {
-    for(int x = 0 ; x < width; x++)
-    {
-        delete licznik[x];
-    }
+
 }
 
 //double trunc(double d){ return (d>0) ? floor(d) : ceil(d) ; }
@@ -67,18 +77,6 @@ void AttractorConnections::After()
 void AttractorConnections::DrawFrame(cv::Mat frame)
 {
 
-
-    video.automatic_clear_frame = false;
-    double a, b, c, d, e, f, g, h;
-
-    a = A_a;
-    b = A_b;
-    c = A_c;
-    d = A_d;
-    e = A_e;
-    f = A_f;
-    g = A_g;
-    h = A_h;
 
 
     Argument<double> color_r = c_r;
@@ -92,15 +90,16 @@ void AttractorConnections::DrawFrame(cv::Mat frame)
 
 
 
+
+
     WriteProcessInfo();
 
+    for(int i = 0; i < (iterations.GetAbsolute(image_time) / totalFrames); i++)
+    {
 
     double m2 = 0;//color
 
 
-
-       // x = a * sin( b * (y0 + x00)  ) + c * cos( d * (x0 + y00) );
-        //y = e * sin( f * (x0 + y00) ) + g * cos( h * (y0 + x00) );
 
         x = a * sin( b * (y0 )  ) + c * cos( d * (x0 ) );
         y = e * sin( f * (x0 ) ) + g * cos( h * (y0) );
@@ -108,7 +107,14 @@ void AttractorConnections::DrawFrame(cv::Mat frame)
         z = sin(x0) + cos(z0);
 
 
-        // m = (z  - min) /(max+min);   pamiętaj że (-1) - (-1) = 2
+        x00 = x0;
+        y00 = y0;
+
+        x0 = x;
+        y0 = y;
+        z0 = z;
+
+
         m2 = (z + 2.0) / 4.0;
 
 
@@ -171,81 +177,61 @@ void AttractorConnections::DrawFrame(cv::Mat frame)
 
 
 
-        if( imgx>=0 && imgx <width && imgy>=0 && imgy < height)
+//        if( imgx>=0 && imgx <width && imgy>=0 && imgy < height)
+//        {
+//            double m =  (licznik[imgx][imgy]) / (maks);
+
+//            frame.data[frame.step*imgy + frame.channels()* imgx + 0] = color_b.GetAbsolute(m);
+//            frame.data[frame.step*imgy + frame.channels()* imgx + 1] = color_g.GetAbsolute(m);
+//            frame.data[frame.step*imgy + frame.channels()* imgx + 2] = color_r.GetAbsolute(m);
+//        }
+//        if( imgx+1>=0 && imgx+1 <width && imgy>=0 && imgy < height)
+//        {
+//            double m =  (licznik[(imgx+1)][imgy]) / (maks);
+
+//            frame.data[frame.step*imgy + frame.channels()* (imgx+1) + 0] = color_b.GetAbsolute(m);
+//            frame.data[frame.step*imgy + frame.channels()* (imgx+1) + 1] = color_g.GetAbsolute(m);
+//            frame.data[frame.step*imgy + frame.channels()* (imgx+1) + 2] = color_r.GetAbsolute(m);
+//        }
+//        if( imgx>=0 && imgx <width && imgy+1>=0 && imgy+1 < height)
+//        {
+//            double m =  (licznik[imgx][(imgy+1)]) / (maks);
+
+//            frame.data[frame.step*(imgy+1) + frame.channels()* imgx + 0] = color_b.GetAbsolute(m);
+//            frame.data[frame.step*(imgy+1) + frame.channels()* imgx + 1] = color_g.GetAbsolute(m);
+//            frame.data[frame.step*(imgy+1) + frame.channels()* imgx + 2] = color_r.GetAbsolute(m);
+//        }
+//        if( imgx+1>=0 && imgx+1 <width && imgy+1>=0 && imgy+1 < height)
+//        {
+//            double m =  (licznik[(imgx+1)][(imgy+1)]) / (maks);
+
+//            frame.data[frame.step*(imgy+1) + frame.channels()* (imgx+1) + 0] = color_b.GetAbsolute(m);
+//            frame.data[frame.step*(imgy+1) + frame.channels()* (imgx+1) + 1] = color_g.GetAbsolute(m);
+//            frame.data[frame.step*(imgy+1) + frame.channels()* (imgx+1) + 2] = color_r.GetAbsolute(m);
+//        }
+
+
+
+
+         double d2 = 1.0 / iterations.GetAbsolute(image_time);
+        ReadProcessInfo(d2);
+        WriteProcessInfo();
+
+    }
+
+    for(int y = 0; y < height; ++y)
+    {
+        for(int x = 0; x < width; ++x)
         {
-            double m =  (licznik[imgx][imgy]) / (maks);
+            double m =  (licznik[x][y]) / (maks);
 
-            frame.data[frame.step*imgy + frame.channels()* imgx + 0] = color_b.GetAbsolute(m);
-            frame.data[frame.step*imgy + frame.channels()* imgx + 1] = color_g.GetAbsolute(m);
-            frame.data[frame.step*imgy + frame.channels()* imgx + 2] = color_r.GetAbsolute(m);
+            frame.data[frame.step*y + frame.channels()* x + 0] = color_b.GetAbsolute(m);
+            frame.data[frame.step*y + frame.channels()* x + 1] = color_g.GetAbsolute(m);
+            frame.data[frame.step*y + frame.channels()* x + 2] = color_r.GetAbsolute(m);
+
+
         }
-        if( imgx+1>=0 && imgx+1 <width && imgy>=0 && imgy < height)
-        {
-            double m =  (licznik[(imgx+1)][imgy]) / (maks);
-
-            frame.data[frame.step*imgy + frame.channels()* (imgx+1) + 0] = color_b.GetAbsolute(m);
-            frame.data[frame.step*imgy + frame.channels()* (imgx+1) + 1] = color_g.GetAbsolute(m);
-            frame.data[frame.step*imgy + frame.channels()* (imgx+1) + 2] = color_r.GetAbsolute(m);
-        }
-        if( imgx>=0 && imgx <width && imgy+1>=0 && imgy+1 < height)
-        {
-            double m =  (licznik[imgx][(imgy+1)]) / (maks);
-
-            frame.data[frame.step*(imgy+1) + frame.channels()* imgx + 0] = color_b.GetAbsolute(m);
-            frame.data[frame.step*(imgy+1) + frame.channels()* imgx + 1] = color_g.GetAbsolute(m);
-            frame.data[frame.step*(imgy+1) + frame.channels()* imgx + 2] = color_r.GetAbsolute(m);
-        }
-        if( imgx+1>=0 && imgx+1 <width && imgy+1>=0 && imgy+1 < height)
-        {
-            double m =  (licznik[(imgx+1)][(imgy+1)]) / (maks);
-
-            frame.data[frame.step*(imgy+1) + frame.channels()* (imgx+1) + 0] = color_b.GetAbsolute(m);
-            frame.data[frame.step*(imgy+1) + frame.channels()* (imgx+1) + 1] = color_g.GetAbsolute(m);
-            frame.data[frame.step*(imgy+1) + frame.channels()* (imgx+1) + 2] = color_r.GetAbsolute(m);
-        }
-
-
-
-
-
-
-        // BEZ INTERPOLACJI DWULINIOWEJ, Z ZAOKRĄGLENIEM
-            //!!!!!!!!!!!!!!!
-                // Pytanie: czy te ograniczniki będą działały
-                // wystarczająco fajnie jeżeli ktoś poda parametry
-                // skaldujące dla sinusów i cosinusów
-
-        //int imgx, imgy;
-       // imgx = round((x+(a+c))/(2 * (a+c)) * width);
-       // imgy = round((y+(e+g))/(2 * (e+g)) * height);
-        /*
-        if(imgx <width && imgx>=0 && imgy < height && imgy>=0)
-        {
-            licznik[imgx][imgy]+=1;
-            if(licznik[imgx][imgy] > maks) maks = licznik[imgx][imgy];
-        }
-        */
-
-
-       // if(imgx>=0 && imgx < width && imgy >= 0 && imgy < height)
-        //{
-       //     frame.data[frame.step*imgy + frame.channels()* imgx + 0] = color_b.GetAbsolute(m);
-       //     frame.data[frame.step*imgy + frame.channels()* imgx + 1] = color_g.GetAbsolute(m);
-       //     frame.data[frame.step*imgy + frame.channels()* imgx + 2] = color_r.GetAbsolute(m);
-       // }
-
-        x00 = x0;
-        y00 = y0;
-
-        x0 = x;
-        y0 = y;
-        z0 = z;
-
-
-
-
-
-
+    }
 
 
 

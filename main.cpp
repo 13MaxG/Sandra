@@ -9,6 +9,8 @@
 #include "image.h"
 #include "spiral.h"
 #include "attractor.h"
+#include "attractor_connections.h"
+#include "ikeda.h"
 
 using namespace std;
 
@@ -74,11 +76,20 @@ int main( int argc, char* argv[] )
     {
         system = new Attractor();
     }
+    if(name == "#AttractorConnections")
+    {
+        system = new AttractorConnections();
+    }
+    if(name == "#Ikeda")
+    {
+        system = new Ikeda();
+    }
     else
     {
         ok  = false;
         cout<<"Nieznana animacja"<<endl;
     }
+
 
     if(ok)
     {
