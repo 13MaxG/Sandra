@@ -132,7 +132,7 @@ protected:
      */
     Operator repository;
 
-
+    std::string dir;
 protected:
     /**
      * @brief Przygotuj argumenty (zmieniające się w czasie)

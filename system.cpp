@@ -1,5 +1,6 @@
 #include "system.h"
 #include <iostream>
+#include<boost/filesystem/operations.hpp>
 
 System::System()
 {
@@ -25,6 +26,9 @@ System::System()
     repository.Register("time", &time);
     repository.Register("codec", &codec);
     repository.Register("process_info", &process_info);
+
+
+
 }
 
 System::~System()
@@ -37,6 +41,18 @@ void System::Load(char *fileName)
 
     // Otwórz plik z koniguracją
     file.open(fileName, std::ios::in);
+
+    std::string fName = fileName;
+
+    unsigned found = fName.find_last_of("/");
+
+    dir= fName.substr(0, found);
+    std::string onlyName = fName.substr(found+1);
+
+
+    boost::filesystem::create_directory(boost::filesystem::path(dir+"/configs"));
+    boost::filesystem::create_directory(boost::filesystem::path(dir+"/output"));
+
 
     std::string line; // pojedyna linia
     Command command; // analizowanie polecenia
@@ -75,8 +91,10 @@ void System::Load(char *fileName)
     now =  toString( std::time (NULL) );
 
 
-    std::string tmp = filename;
-    tmp += "_config_"  + now + ".txt";
+
+
+
+    std::string tmp = dir+"/configs/"+filename+"_config_"  + now + ".txt";
     std::fstream configCopy;
     configCopy.open(tmp.c_str(), std::ios::out);
 
@@ -101,6 +119,8 @@ void System::Render()
 {
 
 
+
+
     // Dodaj coś do nazwy pliku
     if(diffrentNames)
         filename.append("_"+now);
@@ -118,7 +138,7 @@ void System::Render()
         image.SetWidth(width);
         image.SetHeight(height);
         image.SetCompression(compression);
-        image.SetFileName(filename);
+        image.SetFileName(dir+"/output/"+filename);
 
         std::cout<<"Kompresja: "<<compression<<std::endl;
         std::cout<<"Plik wyjściowy: "<<filename<<std::endl;
@@ -163,7 +183,7 @@ void System::Render()
         video.SetResolutionWidth(width);
         video.SetResolutionHeight(height);
         video.SetFPS(fps);
-        video.SetFileName(filename);
+        video.SetFileName(dir+"/output/"+filename);
         video.Prepare(); // Mhmmm
 
         std::cout<<"Czas trwania: "<<time<<" sekund "<<std::endl;

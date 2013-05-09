@@ -48,9 +48,17 @@ int main( int argc, char* argv[] )
     string name;
 
     file.open(config, ios::in);
-    file>>name;
-    file.close();
 
+    if (file.is_open())
+    {
+        file>>name;
+        file.close();
+    } else
+    {
+        cout<<"Nie udało się otworzyć pliku: "<<config<<endl;
+        return 0;
+
+    }
 
 
 
@@ -75,11 +83,11 @@ int main( int argc, char* argv[] )
     if(name == "#Attractor")
     {
         system = new Attractor();
-    }
+    }else
     if(name == "#AttractorConnections")
     {
         system = new AttractorConnections();
-    }
+    }else
     if(name == "#Ikeda")
     {
         system = new Ikeda();

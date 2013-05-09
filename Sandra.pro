@@ -43,4 +43,5 @@ SOURCES += main.cpp \
 CONFIG += link_pkgconfig
 PKGCONFIG += opencv
 
-
+INCLUDEPATH += /usr/include
+LIBS += -L"/usr/include/boost" -lboost_system -lboost_filesystem
