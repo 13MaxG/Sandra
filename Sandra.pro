@@ -20,7 +20,8 @@ HEADERS += \
     spiral.h \
     attractor.h \
     attractor_connections.h \
-    ikeda.h
+    ikeda.h \
+    polynomial.h
 
 SOURCES += main.cpp \
     system.cpp \
@@ -38,7 +39,8 @@ SOURCES += main.cpp \
     spiral.cpp \
     attractor.cpp \
     attractor_connections.cpp \
-    ikeda.cpp
+    ikeda.cpp \
+    polynomial.cpp
 
 CONFIG += link_pkgconfig
 PKGCONFIG += opencv

@@ -11,6 +11,7 @@
 #include "attractor.h"
 #include "attractor_connections.h"
 #include "ikeda.h"
+#include "polynomial.h"
 
 using namespace std;
 
@@ -91,6 +92,10 @@ int main( int argc, char* argv[] )
     if(name == "#Ikeda")
     {
         system = new Ikeda();
+    }else
+    if(name == "#Polynomial")
+    {
+        system = new Polynomial();
     }
     else
     {
