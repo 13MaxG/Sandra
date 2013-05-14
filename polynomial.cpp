@@ -14,15 +14,15 @@ Polynomial::Polynomial()
     repository.Register("color_b", &c_b);
 
     // Dla 2D po 6, dla 3D po 10
-    A = new Argument<double>[6];
-    B = new Argument<double>[6];
-    //C = new Argument<double>[6];
-    for(int i = 1; i <= 6; i++)
+    A = new Argument<double>[10];
+    B = new Argument<double>[10];
+    C = new Argument<double>[10];
+    for(int i = 1; i <= 10; i++)
         repository.Register("a"+toString(i), &A[i-1]);
-    for(int i = 1; i <= 6; i++)
+    for(int i = 1; i <= 10; i++)
         repository.Register("b"+toString(i), &B[i-1]);
-    //for(int i = 1; i <= 6; i++)
-     //   repository.Register("c"+toString(i), &C[i-1]);
+    for(int i = 1; i <= 10; i++)
+        repository.Register("c"+toString(i), &C[i-1]);
 
     repository.Register("MINx", &MINx);
     repository.Register("MINy", &MINy);
