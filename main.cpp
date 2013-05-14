@@ -12,6 +12,7 @@
 #include "attractor_connections.h"
 #include "ikeda.h"
 #include "polynomial.h"
+#include "phi.h"
 
 using namespace std;
 
@@ -96,6 +97,10 @@ int main( int argc, char* argv[] )
     if(name == "#Polynomial")
     {
         system = new Polynomial();
+    }else
+    if(name == "#Phi")
+    {
+        system = new Phi();
     }
     else
     {

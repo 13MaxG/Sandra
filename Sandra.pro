@@ -21,7 +21,9 @@ HEADERS += \
     attractor.h \
     attractor_connections.h \
     ikeda.h \
-    polynomial.h
+    polynomial.h \
+    phi.h \
+    easypolynomial.h
 
 SOURCES += main.cpp \
     system.cpp \
@@ -40,7 +42,9 @@ SOURCES += main.cpp \
     attractor.cpp \
     attractor_connections.cpp \
     ikeda.cpp \
-    polynomial.cpp
+    polynomial.cpp \
+    phi.cpp \
+    easypolynomial.cpp
 
 CONFIG += link_pkgconfig
 PKGCONFIG += opencv

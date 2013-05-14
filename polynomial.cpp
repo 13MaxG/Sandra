@@ -14,15 +14,15 @@ Polynomial::Polynomial()
     repository.Register("color_b", &c_b);
 
     // Dla 2D po 6, dla 3D po 10
-    A = new Argument<double>[10];
-    B = new Argument<double>[10];
-    C = new Argument<double>[10];
-    for(int i = 1; i <= 10; i++)
+    A = new Argument<double>[6];
+    B = new Argument<double>[6];
+    //C = new Argument<double>[6];
+    for(int i = 1; i <= 6; i++)
         repository.Register("a"+toString(i), &A[i-1]);
-    for(int i = 1; i <= 10; i++)
+    for(int i = 1; i <= 6; i++)
         repository.Register("b"+toString(i), &B[i-1]);
-    for(int i = 1; i <= 10; i++)
-        repository.Register("c"+toString(i), &C[i-1]);
+    //for(int i = 1; i <= 6; i++)
+     //   repository.Register("c"+toString(i), &C[i-1]);
 
     repository.Register("MINx", &MINx);
     repository.Register("MINy", &MINy);
@@ -73,14 +73,14 @@ void Polynomial::DrawFrame(cv::Mat frame)
     for(unsigned int iter = 0; iter < iterations.Get(); iter++)
     {
         ///DWA WYMIARY:
+       // x = A[0].Get() + A[1].Get()*x0 + A[2].Get()*x0*x0+A[3].Get()*x0*y0 + A[4].Get()*y0 + A[5].Get()*y0*y0;
+       //y = B[0].Get() + B[1].Get()*x0 + B[2].Get()*x0*x0+B[3].Get()*x0*y0 + B[4].Get()*y0 + B[5].Get()*y0*y0;
         ////x = A[0].Get() + A[1].Get()*x0 + A[2].Get()*x0*x0+A[3].Get()*x0*y0 + A[4].Get()*y0 + A[5].Get()*y0*y0;
-        ////y = B[0].Get() + B[1].Get()*x0 + B[2].Get()*x0*x0+B[3].Get()*x0*y0 + B[4].Get()*y0 + B[5].Get()*y0*y0;
-        ////x = A[0].Get() + A[1].Get()*x0 + A[2].Get()*x0*x0+A[3].Get()*x0*y0 + A[4].Get()*y0 + A[5].Get()*y0*y0;
+      // z = sin(A[2].Get() - A[0].Get())*(x-y) - cos((A[3].Get()-A[1].Get())*(y-x));
 
-
-        std::cout<<x<<", "<<y<<", "<<z<<std::endl;
-        double qq;
-        std::cin>>qq;
+        //std::cout<<x<<", "<<y<<", "<<z<<std::endl;
+        //double qq;
+        //std::cin>>qq;
         // TRZY WYMIARY
         x = A[0].Get() + A[1].Get()*x0 + A[2].Get()*x0*x0+A[3].Get()*x0*y0+A[4].Get()*x0*z0 + A[5].Get()*y0 + A[6].Get()*y0*y0 + A[7].Get()*y0*z0 + A[8].Get()*z0+A[9].Get()*z0*z0;
         y = B[0].Get() + B[1].Get()*x0 + B[2].Get()*x0*x0+B[3].Get()*x0*y0+B[4].Get()*x0*z0 + B[5].Get()*y0 + B[6].Get()*y0*y0 + B[7].Get()*y0*z0 + B[8].Get()*z0+B[9].Get()*z0*z0;

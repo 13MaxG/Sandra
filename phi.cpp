@@ -1,11 +1,11 @@
-#include "attractor.h"
+#include "phi.h"
 #define _USE_MATH_DEFINES
 #include <cmath>
 
+double const phi = (sqrt(5.0) + 1.0) / 2.0;
 
-Attractor::Attractor()
+Phi::Phi()
 {
-    //automatic_clear_frame = false;
     precise_info = true;
 
     repository.Register("iterations", &iterations);
@@ -16,36 +16,41 @@ Attractor::Attractor()
 
     repository.Register("a", &A_a);
     repository.Register("b", &A_b);
-    repository.Register("c", &A_c);
-    repository.Register("d", &A_d);
 
-    repository.Register("e", &A_e);
-    repository.Register("f", &A_f);
-    repository.Register("g", &A_g);
-    repository.Register("h", &A_h);
+    repository.Register("scale", &Scale);
+
 
 }
 
-void Attractor::Before()
+double Phi::re(double x)
+{
+    return pow(phi, x) * cos(M_PI * x);
+}
+
+double Phi::im(double x)
+{
+    return pow(phi, x) * sin(M_PI * x);
+}
+
+void Phi::Before()
 {
 
 
 }
 
-void Attractor::After()
+void Phi::After()
 {
 
 }
 
-
-
-void Attractor::DrawFrame(cv::Mat frame)
+void Phi::DrawFrame(cv::Mat frame)
 {
 
-    double x0, y0, m0, x, y, z, z0, x00, y00;
+    double x0, y0, m0, x, y, z, z0, x00, y00, z00;
 
     x00 = 1;
-    y00= 1;
+    y00 = 1;
+    z00 = 1;
     x0 = 1;
     y0 = 1;
     z0 = 1;
@@ -53,13 +58,9 @@ void Attractor::DrawFrame(cv::Mat frame)
 
     a = A_a.Get();
     b = A_b.Get();
-    c = A_c.Get();
-    d = A_d.Get();
-    e = A_e.Get();
-    f = A_f.Get();
-    g = A_g.Get();
-    h = A_h.Get();
 
+    double s;
+    s = Scale.Get();
 
     Argument<double> color_r = c_r;
     Argument<double> color_g = c_g;
@@ -90,18 +91,14 @@ void Attractor::DrawFrame(cv::Mat frame)
     for(unsigned int iter = 0; iter < iterations.Get(); iter++)
     {
 
-       // x = a * sin( b * (y0 + x00)  ) + c * cos( d * (x0 + y00) );
-        //y = e * sin( f * (x0 + y00) ) + g * cos( h * (y0 + x00) );
 
 
-        /// WAŻNE TO MA BYĆ W RELEASE
-        x = a * sin( b * (y0 )  ) + c * cos( d * (x0 ) );
-        y = e * sin( f * (x0 ) ) + g * cos( h * (y0) );
 
-        /// a tutaj jest testowe
-       /// x = a *re( x0) - b *im ( y0);
-       /// y = a *re( y0) + b *im ( x0);
 
+        x = re( a * x0) - im ( b * y0);
+        y = re(a * y0) +im ( b * x0);
+        //std::cout<<x<<","<<y<<std::endl;
+        //  z = re(x00) + im(y00);
         z = sin(x0) + cos(z0);
 
 
@@ -124,10 +121,17 @@ void Attractor::DrawFrame(cv::Mat frame)
         // dy = ( ( e + g ) - ( -e + -g) ) / height
 
         /// WAŻNE TO MA BYĆ W RELEASE
-        minx = -a-c; maxx = a+c;
-        miny = -e-g; maxy = e+g;
-       /// minx = -3.5; maxx= 2.5;
-       /// miny = -1.96875; maxy= 1.40625;
+        //minx = -a-c; maxx = a+c;
+        //miny = -e-g; maxy = e+g;
+
+       double baseWidth = 8;
+       double screenRatio = (double)height / (double)width;
+
+        //minx = -3.5; maxx= 2.5;
+      //  miny = -1.96875; maxy= 1.40625;
+
+        minx = -1  * s * (baseWidth/2.0); maxx= s * (baseWidth/2.0);
+        miny = -1 * s * (( baseWidth * screenRatio)/2.0); maxy= s * (( baseWidth * screenRatio)/2.0);
 
         dx = ( maxx - minx )/width;
         dy = ( maxy - miny )/height;
@@ -199,6 +203,7 @@ void Attractor::DrawFrame(cv::Mat frame)
 
         x00 = x0;
         y00 = y0;
+        z00 = z0;
 
         x0 = x;
         y0 = y;
