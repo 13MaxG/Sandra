@@ -2,12 +2,12 @@
 
 # Parametry wyjścia
 output_file("mandelbrot") plik wyjściowy
-width(640) szerokość
-height(480) wysokość
+width(320) szerokość
+height(240) wysokość
 
 ## Gdy video
-fps( 24.0 )
-time( 10.0 )
+fps( 12.0 )
+time( 1.0 )
 codec("DIVX"); I420 DIVX 
 ###
 
@@ -18,45 +18,26 @@ image_time(0.0001)
 
 process_info(0.01)
 
-color_r(255, 0.0);
-color_g(255, 0.0);
-color_b(255, 0.0);
+color_r(0, 0.0);
+color_g(0, 0.0);
+color_b(0, 0.0);
 
-color_r(255, 0.16);
-color_g(0, 0.16);
-color_b(0, 0.16);
+color_r(0, 0.45);
+color_g(0 , 0.45);
+color_b(255, 0.45);
 
-
-color_r(255, 0.32);
-color_g(255, 0.24);
-color_b(0, 0.32);
-
-color_r(0, 0.36);
-color_g(255, 0.48);
-color_b(0, 0.40);
-
-color_r(0, 0.68);
-color_g(255, 0.60);
-color_b(255, 0.59);
-
-color_r(0, 0.81);
-color_g(0, 0.75);
-color_b(255, 0.84);
-
-color_r(255, 0.92);
-color_g(0, 0.96);
-color_b(255, 0.94);
-
+color_r(255, 0.75);
+color_g(255 , 0.75);
+color_b(255, 0.75);
 
 color_r(255, 1.0);
 color_g(255, 1.0);
 color_b(0, 1.0);
-
 #coloring("logarithmic_sinus")
 #coloring("logarithmic_sinus2") TESTOWWE
 #coloring("linear")
 #coloring("loglog")
-coloring("logarithmic_sinus")
+coloring("loglog")
 
 
 
@@ -76,15 +57,16 @@ sefby(1, 0.0);Przyrost skali na sekundę
 sefby(0.98, 0.2);
 sefby(0.92, 1.0);
 
-iterations(16, 0.0);
-iterations(16, 0.2);
-iterations(48, 1.0);
+iterations(64, 0.0);
+iterations(8, 0.2);
+iterations(64, 0.25);
+iterations(64, 1.0);
 
 # Głeboka dziura
 hole(true) GDY sinusowe to widać fajną rzecz :)
 
 #jak radius jest zbyt mały, mogą być brzydkie krawędzie!
 radius(16	, 0.0);
-radius(48, 1.0);
+radius(16, 1.0);
 
 

@@ -24,10 +24,8 @@ Polynomial::Polynomial()
     for(int i = 1; i <= 10; i++)
         repository.Register("c"+toString(i), &C[i-1]);
 
-    repository.Register("MINx", &MINx);
-    repository.Register("MINy", &MINy);
-    repository.Register("MAXx", &MAXx);
-    repository.Register("MAXy", &MAXy);
+    repository.Register("scale", &Scale);
+
 }
 
 void Polynomial::Before()
@@ -68,7 +66,7 @@ void Polynomial::DrawFrame(cv::Mat frame)
     double d2 = 1.0 / (double) iterations.Get() ;
 
         double m2 = 0;//color
-    double x = 1, y = 1, z = 1, x0 = 0, y0 = 0, z0 = 0;
+    double x = 0, y = 0, z = 0, x0 = 0, y0 = 0, z0 = 0;
 
     for(unsigned int iter = 0; iter < iterations.Get(); iter++)
     {
@@ -115,10 +113,13 @@ void Polynomial::DrawFrame(cv::Mat frame)
                 double maxx, maxy; // maksymalne wymiary modelu
                 double errx, erry; // błędy dla x i y
 
-                minx = MINx.Get();
-                miny = MINy.Get();
-                maxx = MAXx.Get();
-                maxy = MAXy.Get();
+
+
+                double baseWidth = 1;
+                double screenRatio = (double)height / (double)width;
+                double s = Scale.Get();
+                 minx = 0.5+ -1  * s * (baseWidth/2.0); maxx=0.5+  s * (baseWidth/2.0);
+                 miny = 0.5+ -1 * s * (( baseWidth * screenRatio)/2.0); maxy= 0.5+ s * (( baseWidth * screenRatio)/2.0);
 
 
                // if(x >= minx && x <=maxx && y >= miny && y <=maxy)

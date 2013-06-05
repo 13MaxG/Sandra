@@ -1,0 +1,87 @@
+#Lissajous
+
+##### Main
+output_file("lisek_2")
+process_info(0.05)
+width(800)
+height(600)
+
+## Image
+compression(0)
+image_time(0.15) Renderuję X% pokazu do pliku graficznego
+ 
+##Video
+fps( 25.0 )
+time( 12.0 )
+codec("DIVX"); I420 DIVX 
+
+##### Pokaz
+## Promień
+radius(125, 0.0);
+radius(275, 1.0);
+##
+
+## Skala
+scale_x(1, 0.0);
+scale_x(1.07, 1.0);
+#
+scale_y(1, 0.0);
+scale_y(0.99, 1.0);
+##
+
+
+## Współczynnik X
+factor_x_cos(0.618, 0.0);
+factor_x_cos(2.618, 1.0);
+##
+
+## Współczynnik Y
+factor_y_sin(2.618, 0.0);
+factor_y_sin(0.618, 1.0);
+##
+
+
+
+## Dokładność lini 
+#tutaj podział okręgu na n części
+precision(350, 0.0);
+precision(350, 1.0);
+## 
+
+## Czy spiralnie
+spiral(true)
+#
+## Skok spirali
+jump(0.5, 0.0);
+jump(0.75, 1.0);
+#
+## Ilość skoków spirali, skok gwałtowny
+jumps(2, 0.0);
+jumps(2, 1.0);
+#
+
+
+## Paleta kolorów
+# 1
+color_r(233, 0.0);
+color_g(55, 0.0);
+color_b(144, 0.0);
+#2
+color_r(233, 0.25);
+color_g(144, 0.25);
+color_b(89, 0.25);
+#3
+color_r(233, 0.5);
+color_g(144, 0.5);
+color_b(233, 0.5);
+#4
+color_r(55, 0.75);
+color_g(144, 0.75);
+color_b(233, 0.75);
+# 5
+color_r(233, 1.0);
+color_g(144, 1.0);
+color_b(89, 1.0);
+###
+
+

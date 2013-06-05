@@ -56,7 +56,7 @@ color_b(0, 1.0);
 #coloring("logarithmic_sinus2") TESTOWWE
 #coloring("linear")
 #coloring("loglog")
-coloring("logarithmic_sinus")
+coloring("loglog")
 
 
 

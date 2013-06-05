@@ -58,6 +58,11 @@ color_b(0, 1.0);
 #coloring("loglog")
 coloring("logarithmic_sinus")
 
+#pointX(-0.1011, 0.0)
+#pointY(0.9563, 0.0)
+
+#pointX(-0.1011, 1.0)
+#pointY(0.9563, 1.0)
 
 
 

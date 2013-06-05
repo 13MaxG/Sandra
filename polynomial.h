@@ -21,8 +21,7 @@ private:
     Argument<double> *B;
     Argument<double> *C;
 
-    Argument<double> MINx, MINy;
-    Argument<double> MAXx, MAXy;
+    Argument<double> Scale;
 
 public:
     Polynomial();

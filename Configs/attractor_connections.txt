@@ -1,28 +1,30 @@
-#Attractor
+#AttractorConnections
 
 # Parametry wyjścia
-output_file("attractor") plik wyjściowy
-width(640) szerokość
-height(480) wysokość
+output_file("attractor_connections") plik wyjściowy
+width(1280) szerokość
+height(720) wysokość
 
 
 ## Gdy video
-fps( 12.0 )
-time( 10.0 )
-codec("DIVX"); I420
+fps( 24.0 )
+time( 10000.0 )
+codec("DIVX "); I420
 ###
 
 ## Gdy image
 compression(3) kompresja 0 - brak, 9 -maks
-image_time(0.6)
+image_time(0.80)
 ###
 
 process_info(0.0001)
 
 ######### Attrybuty
 
-iterations(200000, 0.0)
-iterations(200000, 1.0)
+
+
+iterations(1000000, 0.0)
+iterations(1000000, 1.0)
 
 color_r(0, 0.0);
 color_g(0, 0.0);
