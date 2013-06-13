@@ -1,0 +1,58 @@
+#Buddhabrot
+
+# Parametry wyjścia
+output_type("image")
+output_file("buddhabrot")
+width(1920)
+height(1080)
+compression(0)
+process_info(0.05)
+# Parametry pokazu
+image_time(1)
+
+color_r(0, 0.0);
+color_g(0, 0.0);
+color_b(0, 0.0);
+
+color_r(255, 0.05);
+color_g(0, 0.05);
+color_b(0, 0.05);
+
+color_r(0, 0.2);
+color_g(255, 0.2);
+color_b(0, 0.2);
+
+color_r(0, 1.0);
+color_g(0, 1.0);
+color_b(255, 1.0);
+
+coloring("unclassic")
+
+
+#pointX(-0.1011, 0.0)
+#pointY(0.9563, 0.0)
+
+#pointX(-0.1011, 1.0)
+#pointY(0.9563, 1.0)
+
+pointX(-0.5, 0.0)
+pointY(-0, 0.0)
+
+pointX(-0.5, 1.0)
+pointY(-0, 1.0)
+
+
+
+scale(1.00, 0.0);
+scale(1.00, 1.0);
+
+iterations(10000, 0.0);
+iterations(10000, 1.0);
+#jak radius jest zbyt mały, mogą być brzydkie krawędzie!
+radius(2	, 0.0); 2 
+radius(2, 1.0); 2 
+
+points(1000000, 0.0)
+points(1000000, 1.0)
+
+

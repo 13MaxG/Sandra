@@ -1,0 +1,95 @@
+#Lissajous
+
+##### Main
+output_file("lisek_3")
+process_info(0.05)
+width(1920)
+height(1080)
+
+## Image
+compression(0)
+image_time(0.987) Renderuję X% pokazu do pliku graficznego
+ 
+##Video
+fps( 25.0 )
+time( 12.0 )
+codec("DIVX"); I420 DIVX 
+
+##### Pokaz
+## Promień
+radius(125, 0.0);
+radius(225, 0.25);
+radius(225, 1.0);
+##
+
+## Skala
+scale_x(0.8, 0.0);
+scale_x(0.025, 0.25);
+scale_x(0.02, 1.0);
+#
+scale_y(0.8, 0.0);
+scale_y(0.025, 0.25);
+scale_y(0.02, 1.0);
+##
+
+
+## Współczynnik X
+factor_x_cos(1.0, 0.0);
+factor_x_cos(1.0, 0.25);
+factor_x_cos(1.02, 1.0);
+##
+
+## Współczynnik Y
+factor_y_sin(1.0, 0.0);
+factor_y_sin(1.0, 0.25);
+factor_y_sin(0.98, 1.0);
+##
+
+
+
+## Dokładność lini 
+#tutaj podział okręgu na n części
+precision(500, 0.0);
+precision(500, 1.0);
+## 
+
+## Czy spiralnie
+spiral(true)
+#
+## Skok spirali
+jump(0.5, 0.0);
+jump(0.75, 0.25);
+jump(0.75, 1.0);
+#
+## Ilość skoków spirali, skok gwałtowny
+jumps(10, 0.0);
+jumps(100, 0.25);
+jumps(100, 1.0);
+#
+
+
+## Paleta kolorów: Firenze
+#1
+color_r(70, 0.0)
+color_g(137, 0.0)
+color_b(102, 0.0)
+#2
+color_r(255, 0.25)
+color_g(240, 0.25)
+color_b(165, 0.25)
+#3
+color_r(255, 0.5)
+color_g(176, 0.5)
+color_b(59, 0.5)
+#4
+color_r(182, 0.75)
+color_g(73, 0.75)
+color_b(38, 0.75)
+#5
+color_r(142, 1.0)
+color_g(40, 1.0)
+color_b(0, 1.0)
+
+
+
+

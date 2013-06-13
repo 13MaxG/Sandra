@@ -1,0 +1,94 @@
+#Lissajous
+
+
+process_info(0.05)
+
+# Parametry wyjścia
+output_type("video")
+output_file("lisek")
+width( 1024 )
+height( 768 )
+fps( 25.0 )
+time( 12.0 )
+codec("DIVX"); I420 DIVX 
+
+# Promień
+radius(200, 0.0);
+radius(300, 1.0);
+#
+#
+scale_x(1, 0.0);
+scale_x(0.75, 0.8);
+scale_x(1, 1.0);
+#
+#
+scale_y(1, 0.0);
+scale_y(0.90, 0.25);
+scale_y(0.70, 0.75);
+scale_y(1, 1.0);
+#
+#
+factor_x_cos(1.0, 0.0);
+factor_x_cos(-2.0, 0.1);
+factor_x_cos(-1.0, 0.2);
+factor_x_cos(-0.05, 0.3);
+factor_x_cos(0.5, 0.6);
+factor_x_cos(2.0, 0.8);
+factor_x_cos(3.0, 1.0);
+#
+#
+factor_y_sin(1.0, 0.0);
+factor_y_sin(-1.0, 0.2);
+factor_y_sin(-10.0, 0.3);
+factor_y_sin(10.0, 0.35);
+factor_y_sin(12.0, 0.4);
+factor_y_sin(15.0, 0.45);
+factor_y_sin(1.0, 1.0);
+#
+#
+jump(1.0, 0.0);
+jump(1.1, 0.1);
+jump(1.9, 0.2);
+jump(2.6, 0.3);
+jump(1.3, 0.7);
+jump(-0.5, 1.0);
+#
+#
+precision(1000, 0.0);
+precision(1000, 1.0);
+#
+#
+jumps(1, 0.0);
+jumps(3, 1.0);
+#
+##### KOLOR
+# 1
+color_r(255, 0.0);
+color_g(0, 0.0);
+color_b(0, 0.0);
+# 2
+color_r(255, 0.1666);
+color_g(0, 0.1666);
+color_b(255, 0.1666);
+# 3
+color_r(0, 0.3333);
+color_g(0, 0.3333);
+color_b(255, 0.3333);
+# 4
+color_r(0, 0.5);
+color_g(255, 0.5);
+color_b(255, 0.5);
+# 5
+color_r(0, 0.6666);
+color_g(255, 0.6666);
+color_b(0, 0.6666);
+# 6
+color_r(255, 0.8333);
+color_g(255, 0.8333);
+color_b(0, 0.8333);
+# 7
+color_r(0, 1.0);
+color_g(0, 1.0);
+color_b(0, 1.0);
+###
+

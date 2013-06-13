@@ -1,0 +1,32 @@
+Hi
+
+I have a problem with 3 dimensional strange attractor. I have read this: http://www.fractaldesign.net/AttractorAlgorithm.aspx and tired to calculate the specific example. 
+
+After 16 iterations, my computer says: "Nan"!. This is my output(first line - first iteration, in format: X, Y, Z):
+0, 0.4, 0.5
+0.58925, -0.601, 0.685
+0.563041, -0.359554, 0.931539
+1.13826, -0.609993, 0.557649
+0.139196, -0.701497, 0.289279
+0.24836, 0.256096, 1.29401
+2.38648, -1.47478, 0.247027
+-2.08741, -4.06937, -2.00545
+16.3135, -15.1588, 2.73927
+-124.469, -457.153, -144.308
+130962, -234019, 95198.9
+-8.15225e+09, -8.52073e+10, -8.12413e+09
+2.28688e+21, -7.8503e+21, 3.76743e+21
+8.8809e+41, -8.0986e+43, -2.72964e+42
+1.38395e+87, -7.29604e+87, 3.41906e+87
+3.03979e+174, -6.50625e+175, 5.67223e+173
+
+As you can see, there are really big numbers. 
+Could you check that example? I'm writing to you, because the 2D example in my program works good. Yes, I have checked the indexes :)
+
+And I have an question, if I take strange( :D ) numbers to my parameters, there are always be a nice attractor? I'm scared, but I think there is a change with too get something chaotic. 
+
+And the last one: can I predict the maximum and minimum value of X and Y? 
+
+
+
+

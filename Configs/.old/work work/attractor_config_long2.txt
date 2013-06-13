@@ -1,0 +1,95 @@
+#Attractor
+
+# Parametry wyjścia
+output_file("attractor") plik wyjściowy
+width(1920) szerokość
+height(1080) wysokość
+
+
+## Gdy video
+fps( 25.0 )
+time( 60.0 )
+codec("I420"); I420 DIVX 
+###
+
+## Gdy image
+compression(3) kompresja 0 - brak, 9 -maks
+image_time(0.0000001)
+###
+
+process_info(0.0001)
+
+######### Attrybuty
+
+iterations(20000000, 0.0)
+iterations(20000000, 1.0)
+
+color_r(0, 0.0);
+color_g(0, 0.0);
+color_b(0, 0.0);
+
+color_r(13, 0.01);
+color_g(0 , 0.011);
+color_b(21, 0.011);
+
+color_r(55, 0.5);
+color_g(0 , 0.5);
+color_b(89, 0.5);
+
+color_r(89, 0.10);
+color_g(0 , 0.10);
+color_b(144, 0.10);
+
+
+color_r(144, 0.1542);
+color_g(23 , 0.1542);
+color_b(233, 0.1542);
+
+color_r(233, 0.2717);
+color_g(89 , 0.2717);
+color_b(255, 0.2717);
+
+color_r(255, 0.24271);
+color_g(255, 0.24271);
+color_b(255, 0.24271);
+
+color_r(255, 1.0);
+color_g(255, 1.0);
+color_b(255, 1.0);
+
+
+
+a(4.236, 0.0)
+a(2.618, 0.55)
+a(1.618, 1.0)
+
+b(-0.8, 0.0)
+b(-3.14, 0.55)
+b(2.14, 1.0)
+
+c(0.618, 0.0)
+c(1.618, 0.55)
+c(2.090169912, 1.0)
+
+d(3.14, 0.0)
+d(6.28, 0.55)
+d(-6.28, 1.0)
+
+e(0, 0.0)
+e(1, 0.55)
+e(2, 1.0)
+
+f(0.9, 0.0)
+f(2.14, 0.55)
+f(3.14, 1.0)
+
+g(1.618, 0.0)
+g(0.618, 0.55)
+g(6.8541, 1.0)
+
+h(-0.9, 0.0)
+h(-3.0, 0.55)
+h(1, 1.0)
+
+
+

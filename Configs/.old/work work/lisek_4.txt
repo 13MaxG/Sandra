@@ -1,0 +1,101 @@
+#Lissajous
+
+##### Main
+output_file("lisek_4")
+process_info(0.1)
+width(800)
+height(600)
+
+## Image
+compression(0)
+image_time(0.427) Renderuję X% pokazu do pliku graficznego
+ 
+##Video
+fps( 25.0 )
+time( 12.0 )
+codec("DIVX"); I420 DIVX 
+
+##### Pokaz
+## Promień
+radius(125, 0.0);
+radius(225, 0.36);
+radius(55, 0.95);
+radius(233, 1.0);
+##
+
+## Skala
+scale_x(0.7, 0.0);
+scale_x(1.0, 1.0);
+#
+scale_y(0.9, 0.0);
+scale_y(1.0, 1.0);
+##
+
+
+## Współczynnik X
+factor_x_cos(-3.141529, 0.0);
+factor_x_cos(-7.141529, 0.5);
+factor_x_cos(3.141529, 0.95);
+factor_x_cos(1.0, 1.0);
+##
+
+## Współczynnik Y
+factor_y_sin(0.0, 0.0);
+factor_y_sin(2.141529, 0.27);
+factor_y_sin(4.141529, 0.77);
+factor_y_sin(3.141529, 0.95);
+factor_y_sin(1.0, 1.0);
+##
+
+
+
+## Dokładność lini 
+#tutaj podział okręgu na n części
+precision(350, 0.0);
+precision(350, 1.0);
+## 
+
+## Czy spiralnie
+spiral(false)
+#
+## Skok spirali
+jump(0.5, 0.0);
+jump(1.75, 0.25);
+jump(1.0, 1.0);
+#
+## Ilość skoków spirali, skok gwałtowny
+jumps(10, 0.0);
+jumps(10, 0.9);
+jumps(0, 1.0);
+#
+
+
+## Paleta kolorów Watermelon
+#1
+color_r(125, 0.0)
+color_g(138, 0.0)
+color_b(46, 0.0)
+#2
+color_r(201, 0.2)
+color_g(215, 0.2)
+color_b(135, 0.2)
+#3
+color_r(255, 0.4)
+color_g(255, 0.4)
+color_b(255, 0.4)
+#4
+color_r(255, 0.6)
+color_g(192, 0.6)
+color_b(169, 0.6)
+#5
+color_r(255, 0.8)
+color_g(133, 0.8)
+color_b(152, 0.8)
+#6->1
+color_r(125, 1.0)
+color_g(138, 1.0)
+color_b(46, 1.0)
+
+
+
+

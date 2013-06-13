@@ -1,0 +1,72 @@
+#Mandelbrot
+
+# Parametry wyjścia
+output_type("video")
+output_file("mandebrot")
+width( 640 )
+height( 480 )
+fps( 12.0 )
+time( 10.0 )
+codec("I420"); I420 DIVX 
+
+process_info(0.01)
+
+color_r(0, 0.0);
+color_g(0, 0.0);
+color_b(0, 0.0);
+
+color_r(255, 0.25);
+color_g(0, 0.25);
+color_b(0, 0.25);
+
+color_r(255, 0.5);
+color_g(255, 0.5);
+color_b(0, 0.5);
+
+color_r(0, 0.75);
+color_g(0, 0.75);
+color_b(255, 0.75);
+
+color_r(255, 1.0);
+color_g(255, 1.0);
+color_b(255, 1.0);
+
+#coloring("logarithmic_sinus")
+#coloring("logarithmic_sinus2")
+#coloring("linear")
+#coloring("loglog")
+coloring("loglog")
+
+#pointX(-0.1011, 0.0)
+#pointY(0.9563, 0.0)
+
+#pointX(-0.1011, 1.0)
+#pointY(0.9563, 1.0)
+
+
+#pointX(-1, 0.0)
+#pointY(0, 0.0)
+
+pointX(0.0, 0.0)
+pointY(0.0, 0.0)
+
+pointX(-0.1011, 0.2)
+pointY(0.9563, 0.2)
+
+pointX(-0.1011, 1.0)
+pointY(0.9563, 1.0)
+
+initial_width(4.0)
+
+sefby(0.95, 0.0);Przyrost skali na sekundę
+sefby(0.95, 1.0); // 0.978
+
+iterations(30, 0.0);
+iterations(30, 1.0);
+
+# Głeboka dziura
+hole(false)
+
+#jak radius jest zbyt mały, mogą być brzydkie krawędzie!
+radius(4	, 0.0);
+radius(4, 1.0);

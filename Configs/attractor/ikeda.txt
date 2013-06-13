@@ -1,0 +1,72 @@
+#Ikeda
+#troszkę inna niż attraktor geometryczny, ale tez spoko!
+
+# Parametry wyjścia
+output_file("ikeda") plik wyjściowy
+width(1280) szerokość
+height(720) wysokość
+
+
+## Gdy video
+fps( 24.0 )
+time( 10.0 )
+codec("DIVX "); I420
+###
+
+## Gdy image
+compression(3) kompresja 0 - brak, 9 -maks
+image_time(0.80)
+###
+
+process_info(0.0001)
+
+######### Attrybuty
+
+
+
+iterations(100000, 0.0)
+iterations(1000000, 1.0)
+
+color_r(0, 0.0);
+color_g(0, 0.0);
+color_b(0, 0.0);
+
+color_r(13, 0.01);
+color_g(0 , 0.011);
+color_b(21, 0.011);
+
+color_r(55, 0.5);
+color_g(0 , 0.5);
+color_b(89, 0.5);
+
+color_r(89, 0.10);
+color_g(0 , 0.10);
+color_b(144, 0.10);
+
+
+color_r(144, 0.1542);
+color_g(23 , 0.1542);
+color_b(233, 0.1542);
+
+color_r(233, 0.2717);
+color_g(89 , 0.2717);
+color_b(255, 0.2717);
+
+color_r(255, 0.24271);
+color_g(255, 0.24271);
+color_b(255, 0.24271);
+
+color_r(255, 1.0);
+color_g(255, 1.0);
+color_b(255, 1.0);
+
+u(0.0, 0.0)
+u(0.9, 0.25)
+u(0.99, 0.5)
+u(0.999, 0.75)
+u(0.9999, 0.95)
+u(1.0, 1.0)
+
+
+
+
