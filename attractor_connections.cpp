@@ -176,7 +176,6 @@ void AttractorConnections::DrawFrame(cv::Mat frame)
 
 
 
-
 //        if( imgx>=0 && imgx <width && imgy>=0 && imgy < height)
 //        {
 //            double m =  (licznik[imgx][imgy]) / (maks);

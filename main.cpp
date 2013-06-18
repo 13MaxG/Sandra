@@ -13,6 +13,7 @@
 #include "ikeda.h"
 #include "polynomial.h"
 #include "phi.h"
+#include "sieve.h"
 
 using namespace std;
 
@@ -101,6 +102,10 @@ int main( int argc, char* argv[] )
     if(name == "#Phi")
     {
         system = new Phi();
+    }else
+    if(name == "#Sieve")
+    {
+        system = new Sieve();
     }
     else
     {

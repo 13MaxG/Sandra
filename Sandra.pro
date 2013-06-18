@@ -23,7 +23,8 @@ HEADERS += \
     ikeda.h \
     polynomial.h \
     phi.h \
-    easypolynomial.h
+    easypolynomial.h \
+    sieve.h
 
 SOURCES += main.cpp \
     system.cpp \
@@ -44,7 +45,8 @@ SOURCES += main.cpp \
     ikeda.cpp \
     polynomial.cpp \
     phi.cpp \
-    easypolynomial.cpp
+    easypolynomial.cpp \
+    sieve.cpp
 
 CONFIG += link_pkgconfig
 PKGCONFIG += opencv
